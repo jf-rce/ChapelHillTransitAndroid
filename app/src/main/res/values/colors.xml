@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <color name="CAROLINA_BLUE">#9FC0DF</color>
+        <color name="NAVY">#1D2951</color>
+        <color name="WHITE">#FFFFFF</color>
+        <color name="LIGHT_GRAY">#D3D3D3</color>
+        <color name="GRAY">#989898</color>
+        <color name="DARK_GRAY">#505050</color>
+        <color name="OFF_WHITE">#E6E6E6</color>
+        <color name="main">#1D2951</color>
+        <color name="accent1">#9FC0DF</color>
+        <color name="accent2">#FFFFFF</color>
+        <color name="accent3">#7a93ab</color>
+        <color name="main_transparent">#E61D2951</color>
+        <color name="accent1_transparent">#EF9FC0DF</color>
+        <color name="accent2_transparent">#E6FFFFFF</color>
+    
+    
+    <integer name="COLOR_WHEEL_CAROLINA_BLUE">210</integer>
+    
+    
+</resources>

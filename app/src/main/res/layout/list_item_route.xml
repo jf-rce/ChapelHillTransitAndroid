@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@color/accent1"
+    android:padding="6dip" >
+
+    <RelativeLayout
+        android:id="@+id/route_icon"
+        android:layout_centerVertical="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_corners">
+        <TextView
+            android:id="@+id/route_icon_text_main"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-5dp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/accent1"
+            android:textSize="24sp"/>
+        <TextView
+            android:id="@+id/route_icon_text_sub"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/route_icon_text_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/accent1"
+            android:text=""
+            android:textSize="8sp"/>
+
+
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/route_list_text"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/route_icon"
+        android:textColor="@color/accent2"
+        android:text=""
+        android:textSize="20sp" />
+
+</RelativeLayout>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    tools:context="com.jforce.chapelhillnextbus.PredictionsFragment"
+    >
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:id="@+id/predictions_frag_relative_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/accent1"
+
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+            android:id="@+id/nav_row">
+
+            <TextView
+
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:id="@+id/route_nav_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="ROUTE"
+                android:textColor="@color/accent3"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/route_arrow_nav_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/route_nav_text"
+                android:text=" → "
+                android:textColor="@color/accent3"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/dir_nav_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/route_arrow_nav_text"
+                android:text="DIRECTION"
+                android:textStyle="bold"
+                android:textColor="@color/accent3"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/dir_arrow_nav_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/dir_nav_text"
+                android:text=" → "
+                android:textColor="@color/accent3"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/stop_nav_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/dir_arrow_nav_text"
+                android:text="STOP"
+                android:textStyle="bold"
+                android:textColor="@color/accent3"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:id="@+id/stop_arrow_nav_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/stop_nav_text"
+                android:text=" → "
+                android:textColor="@color/accent3"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+        </RelativeLayout>
+            <View
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/predictions_divider_line_top"
+                android:layout_below="@id/nav_row"
+                android:layout_width="fill_parent"
+                android:layout_height="16px"
+                android:background="@color/main"/>
+
+            <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/predictions_listview"
+                android:clickable="true"
+                android:divider="@color/main"
+                android:dividerHeight="2px"
+                android:background="@color/accent2"
+                android:layout_below="@id/predictions_divider_line_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/predictions_divider_line_bottom"
+                android:layout_width="fill_parent"
+
+                android:layout_below="@id/predictions_listview"
+                android:layout_height="2px"
+
+                android:background="@color/main"/>
+            <RelativeLayout
+                android:id="@+id/predictions_text_group"
+                android:visibility="gone"
+                android:layout_below="@id/predictions_divider_line_top"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/predictions_main">
+                <TextView
+                    android:id="@+id/route_info_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="@color/accent2"
+                    android:text="D Route"/>
+                <TextView
+                    android:id="@+id/auto_refresh_text"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="15sp"
+                    android:text="Auto-refresh"
+                    android:textColor="@color/accent2"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/dir_info_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/route_info_text"
+                    android:text="To Chatham Park and Ride"
+                    android:textSize="15sp"
+                    android:textColor="@color/accent2"/>
+
+
+
+                <TextView
+                    android:id="@+id/stop_info_text"
+                    android:layout_below="@id/dir_info_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Franklin Woods"
+                    android:textSize="10sp"
+                    android:textColor="@color/main"
+                    />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/refresh_switch"
+                    android:layout_below="@id/auto_refresh_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#1D2951"
+                    android:checked="true"
+                    android:layout_alignParentRight="true"
+                    />
+                <TextView
+                    android:id="@+id/updated_text"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/refresh_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Updated 10:30 am"
+                    android:textSize="10sp"
+                    android:textColor="@color/main"
+                    />
+                <LinearLayout
+                    android:id="@+id/first_pred_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/stop_info_text"
+                    android:layout_centerHorizontal="true"
+
+                    >
+                    <TextView
+                        android:id="@+id/first_pred_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="50sp"
+                        android:textColor="@color/accent2"
+                        android:text="3"
+                        />
+                    <TextView
+                        android:id="@+id/first_pred_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_toRightOf="@id/first_pred_text"
+                        android:textSize="50sp"
+                        android:textColor="@color/accent2"
+                        android:text=" min"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/second_pred_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/first_pred_line"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    >
+                    <TextView
+                        android:id="@+id/second_pred_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="40sp"
+                        android:textColor="@color/accent2"
+                        android:text="12"
+                        />
+                    <TextView
+                        android:id="@+id/second_pred_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_toRightOf="@id/first_pred_text"
+                        android:textSize="40sp"
+                        android:textColor="@color/accent2"
+                        android:text=" min"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/third_pred_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/second_pred_line"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    >
+                    <TextView
+                        android:id="@+id/third_pred_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30sp"
+                        android:textColor="@color/accent2"
+                        android:text="25"
+                        />
+                    <TextView
+                        android:id="@+id/third_pred_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_toRightOf="@id/first_pred_text"
+                        android:textSize="30sp"
+                        android:textColor="@color/accent2"
+                        android:text=" min"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/button_row"
+                    android:layout_below="@id/third_pred_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="0dp"
+                        android:background="@color/main"
+                        android:textColor="@color/accent2"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:drawableLeft="@drawable/ic_maps_map"
+                        android:text="Map"
+                        android:onClick="mapClick"
+                        android:layout_weight="1"
+                        android:layout_height="40dp" />
+                    <Button
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:background="@color/main"
+                        android:textColor="@color/accent2"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:drawableLeft="@drawable/ic_rating_important_carolina"
+                        android:text="Favorite"
+                        android:onClick="saveFavorite"
+                        android:layout_height="40dp" />
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/other_preds_text"
+                    android:textSize="15sp"
+                    android:textColor="@color/accent2"
+                    android:text="Other predictions serving same stop"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_below="@id/predictions_main"/>
+                <RelativeLayout
+                    android:id="@+id/other_preds"
+                    android:layout_below="@id/other_preds_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <ListView
+                        android:id="@+id/other_preds_listview"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </ListView>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_rating_important_carolina"
+            android:onClick="saveFavorite"
+            fab:fab_type="normal"
+            fab:fab_colorNormal="@color/main"
+            fab:fab_colorPressed="@color/accent1"/>
+
+    </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</FrameLayout>

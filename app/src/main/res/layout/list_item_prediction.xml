@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/accent1"
+    android:padding="4dip" >
+
+    <RelativeLayout
+        android:id="@+id/pred_icon"
+        android:layout_centerVertical="true"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/round_corners">
+        <TextView
+            android:id="@+id/pred_icon_text_main"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-5dp"
+            android:maxLines="1"
+            android:text="CCD"
+            android:textColor="@color/CAROLINA_BLUE"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/pred_icon_text_sub"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/pred_icon_text_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/CAROLINA_BLUE"
+            android:text=""
+            android:textSize="8sp"/>
+
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/route_info_text_pred"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/pred_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/accent2"
+        android:text="D Route"/>
+    <TextView
+        android:id="@+id/dir_info_text_pred"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/pred_icon"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/route_info_text_pred"
+        android:text="To Chatham Park and Ride"
+        android:textSize="11sp"
+        android:textColor="@color/accent2"/>
+
+    <RelativeLayout
+        android:id="@+id/pred_icon2"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/round_corners">
+        <TextView
+            android:id="@+id/pred_icon2_text_main"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-5dp"
+            android:maxLines="1"
+            android:text="35"
+            android:textColor="@color/accent2"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/pred_icon2_text_sub"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/pred_icon2_text_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/accent2"
+            android:text="min"
+            android:textSize="8sp"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

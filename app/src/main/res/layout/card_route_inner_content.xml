@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/card_text"
+        android:text="test\ntest\ntest"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/card_button_down"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="-"
+        android:background="#355D3D"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@id/card_text"
+        android:layout_centerVertical="true"/>
+    <Button
+        android:id="@+id/card_button_up"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="+"
+        android:background="#355D3D"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/card_button_down"
+        android:layout_centerVertical="true"/>
+
+
+
+</RelativeLayout>

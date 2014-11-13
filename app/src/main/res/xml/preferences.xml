@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="GENERAL"
+        android:key="pref_key_general">
+        <ListPreference
+            android:key="refreshInterval"
+            android:title="Auto-refresh interval"
+            android:dialogTitle="Auto-refresh interval"
+            android:entries="@array/refresh_interval_entries"
+            android:entryValues="@array/refresh_interval_values"
+            android:defaultValue="30000" />
+       <!--<Preference
+            android:title="Refresh test"
+            android:key="button"
+            android:summary="This can act like a button to create it's own dialog"/> -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="ABOUT"
+        android:key="pref_key_application">
+        <com.jforce.chapelhillnextbus.LicenseDialogPreference
+            android:title="Licenses"
+            android:summary="Open source license information"/>
+        <Preference
+            android:key="pref_build"
+            android:title="Build version" />
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

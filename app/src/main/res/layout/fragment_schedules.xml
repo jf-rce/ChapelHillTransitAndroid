@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jforce.chapelhillnextbus.SchedulesFragment">
+
+
+.
+        <!-- TODO: Update blank fragment layout -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/schedules_root_layout">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/nav_row_schedules">
+
+                <TextView
+
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:id="@+id/route_nav_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="DOWNLOAD AS PDF"
+                    android:textColor="#1D2951"
+                    android:textSize="20sp"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/schedules_divider_line_top"
+                android:layout_width="fill_parent"
+                android:layout_height="2px"
+                android:layout_below="@id/nav_row_schedules"
+                android:background="#9FC0DF"/>
+
+            <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/schedules_listview"
+                android:clickable="true"
+                android:divider="#9FC0DF"
+                android:dividerHeight="2px"
+
+                android:layout_below="@id/schedules_divider_line_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/schedules_divider_line_bottom"
+                android:layout_width="fill_parent"
+                android:layout_below="@id/schedules_listview"
+                android:layout_height="2px"
+                android:background="#9FC0DF"/>
+        </RelativeLayout>
+
+
+
+</FrameLayout>

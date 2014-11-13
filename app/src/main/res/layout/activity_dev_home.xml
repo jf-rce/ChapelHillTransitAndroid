@@ -1,0 +1,110 @@
+
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:titleTextAppearance="@color/WHITE"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <android.support.v4.widget.DrawerLayout
+
+        android:id="@+id/drawer_layout"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- The main content view -->
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+
+        <!-- The navigation drawer -->
+        <LinearLayout
+            android:layout_width="240dp"
+            android:layout_gravity="start"
+            android:id="@+id/drawer_area"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="240dp"
+                    android:layout_height="107dp"
+                    android:id="@+id/drawer_well_image_area"
+                    >
+                    <ImageView
+                        android:layout_width="240dp"
+                        android:layout_height="107dp"
+                        android:src="@drawable/well_crop_blur_small"/>
+                    <ImageView
+                        android:id="@+id/drawer_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/ic_logo_white_nobezel"/>
+                    <TextView
+                        android:id="@+id/weather_text"
+                        android:layout_toRightOf="@id/drawer_icon"
+                        android:layout_centerInParent="true"
+                        android:textSize="16dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/WHITE"
+                        android:text=""/>
+
+
+                </RelativeLayout>
+                <View
+                    android:id="@+id/drawer_line1"
+                    android:layout_width="fill_parent"
+                    android:layout_below="@id/drawer_well_image_area"
+                    android:layout_height="2px"
+                    android:background="@color/main"/>
+                <ListView android:id="@+id/left_drawer"
+                    android:layout_below="@id/drawer_line1"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:choiceMode="singleChoice"
+                    android:divider="@color/main"
+                    android:dividerHeight="2px"
+                    android:background="@color/accent1"/>
+                <View
+                    android:id="@+id/drawer_line2"
+                    android:layout_width="fill_parent"
+                    android:layout_below="@id/left_drawer"
+                    android:layout_height="2px"
+                    android:background="@color/main"/>
+                <ListView
+                    android:id="@+id/left_drawer2"
+                    android:layout_below="@id/drawer_line2"
+                    android:paddingTop="2px"
+                    android:layout_width="240dp"
+                    android:divider="@android:color/transparent"
+                    android:background="@color/accent1"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>
+
+
+

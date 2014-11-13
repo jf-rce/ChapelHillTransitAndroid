@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Chapelhillnavy" parent="Theme.AppCompat.Light">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="colorPrimary">@color/NAVY</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <!-- <item name="android:colorPrimaryDark">@color/CAROLINA_BLUE</item> -->
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/WHITE</item>
+        <!-- <item name="android:navigationBarColor">@color/NAVY</item> -->
+        <!-- <item name="android:icon">@drawable/ic_logo_white_bevel</item> -->
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_drawer</item>
+        <item name="android:textColor">@color/main</item>
+        <item name="android:textColorSecondary">@color/accent2</item>
+       <!-- <item name="android:alertDialogStyle">@style/CustomDialogTheme</item>-->
+
+
+    </style>
+
+
+    <style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
+
+        <item name="titleTextColor">@color/accent2</item>
+        <item name="titleSeparatorColor">@color/accent1</item>
+        <item name="messageTextColor">@color/accent2</item>
+        <item name="buttonTextColor">@color/accent2</item>
+        <item name="buttonSeparatorColor">@color/accent1</item>
+        <item name="buttonBackgroundColorNormal">@color/main</item>
+        <item name="buttonBackgroundColorPressed">@color/accent1</item>
+        <item name="buttonBackgroundColorFocused">@color/accent1</item>
+        <item name="dialogBackground">@color/main</item>
+
+
+    </style>
+
+
+
+
+    <!--<item name="android:textColor">@color/accent2</item>
+    <item name="android:background">@color/main</item>
+    <item name="android:actionBarItemBackground">@color/accent1</item>
+    <item name="android:bottomBright">@color/WHITE</item>
+        <item name="android:bottomDark">@color/WHITE</item>
+        <item name="android:bottomMedium">@color/WHITE</item>
+        <item name="android:centerBright">@color/WHITE</item>
+        <item name="android:centerDark">@color/WHITE</item>
+        <item name="android:centerMedium">@color/WHITE</item>
+        <item name="android:fullBright">@color/WHITE</item>
+        <item name="android:fullDark">@color/WHITE</item>
+        <item name="android:topBright">@color/WHITE</item>
+        <item name="android:topDark">@color/WHITE</item> -->
+
+
+</resources>
