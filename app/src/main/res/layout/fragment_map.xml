@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
-    android:background="@color/accent1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
+    <!--  android:background="@color/accent1" -->
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"
@@ -24,50 +24,52 @@
         map:uiZoomControls="false"
         map:uiZoomGestures="true"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:visibility="gone"
         android:id="@+id/map_route_selection_area"
-        android:background="@color/accent1">
+        android:background="@color/accent1_transparent">
 
 
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:id="@+id/nav_row_map">
 
             <TextView
-
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:id="@+id/route_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:textStyle="bold"
                 android:text="SELECT ROUTE"
-                android:textColor="@color/accent2"
+                android:textColor="@color/accent2_transparent"
                 android:textSize="20sp"
                 />
-        </RelativeLayout>
-        <View
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:id="@+id/map_divider_line_top"
-            android:layout_below="@id/nav_row_map"
 
-            android:layout_width="fill_parent"
-            android:layout_height="16px"
-            android:background="@color/main"/>
+            <View
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/map_divider_line_top"
+                android:layout_below="@id/route_nav_text"
+                android:layout_width="fill_parent"
+                android:layout_height="16px"
+                android:background="@color/main_transparent"/>
+        </RelativeLayout>
+
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map_listview"
             android:clickable="true"
             android:divider="@color/main_transparent"
             android:dividerHeight="2px"
-            android:layout_below="@id/map_divider_line_top"
-
+            android:layout_below="@id/nav_row_map"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <View
@@ -76,18 +78,18 @@
             android:layout_below="@id/map_listview"
             android:layout_height="2px"
 
-            android:background="@color/main"/>
+            android:background="@color/main_transparent"/>
         <Button
             android:id="@+id/map_back_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Back"
             android:onClick="mapBackFromRoutes"
-            android:background="@color/main"
-            android:textColor="@color/accent2"
+            android:background="@color/main_transparent"
+            android:textColor="@color/accent2_transparent"
             android:layout_alignParentBottom="true"/>
 
-    </RelativeLayout>
+    </LinearLayout>
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/map_fab"
         android:layout_width="wrap_content"

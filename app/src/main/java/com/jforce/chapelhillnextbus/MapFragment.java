@@ -2,6 +2,8 @@ package com.jforce.chapelhillnextbus;
 
 
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.location.Location;
@@ -9,12 +11,16 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -27,6 +33,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -70,6 +77,14 @@ public class MapFragment extends Fragment {
 
     private ListView listView;
 
+    private MapHost mCallback;
+
+    private Route currentlyDrawnRoute;
+
+    private LatLngBounds currentBounds;
+
+    private Prediction passedPrediction;
+
 
     public MapFragment() {
         // Required empty public constructor
@@ -96,28 +111,59 @@ public class MapFragment extends Fragment {
             e.printStackTrace();
         }
 
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        // Or use LocationManager.GPS_PROVIDER
 
-        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-
-        // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), 15.0f);
-        map.animateCamera(cameraUpdate);
 
         return v;
+    }
+
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (MapHost) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+
+        init();
+
+
+
     }
 
     @Override
     public void onStart(){
         super.onStart();
-        init();
+
     }
 
     @Override
     public void onResume() {
         mapView.onResume();
+
+        if(currentBounds != null){
+
+            int padding = 60; // offset from edges of the map in pixels
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(currentBounds,
+                    padding);
+            //map.moveCamera(cameraUpdate);
+            map.animateCamera(cameraUpdate);
+
+        }
+
+
+
         super.onResume();
     }
 
@@ -135,6 +181,8 @@ public class MapFragment extends Fragment {
 
     public void init() {
 
+
+
         routeList = new ArrayList<Route>();
 
         stopMarkers = new ArrayList<Marker>();
@@ -143,40 +191,133 @@ public class MapFragment extends Fragment {
 
         listView = (ListView) getActivity().findViewById(R.id.map_listview);
 
+        ArrayList<Route> routeListCache = mCallback.getRouteListCache();
+
+
+        if((routeListCache != null) && (routeListCache.size() != 0)) {
+
+                routeList.addAll(routeListCache);
+
+        }
+        else{
+
+            mCallback.fetchRouteList(RoutesResponseHandler.MAP_ID);
+
+//            Toast toast = Toast.makeText(getActivity(), "fetch", Toast.LENGTH_SHORT);
+//            toast.setGravity(Gravity.CENTER, 0, 0);
+//            toast.show();
+
+        }
+
+        listView.setAdapter(routeAdapter);
 
 
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                map.clear();
+
+                fetchPath(routeList.get(position).getTag(), true);
+
+                String title = routeList.get(position).getTitle();
+
+
+                if(title.equals("Route 420")){
+                    ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(routeList.get(position).getTitle());
+
+                }
+                else{
+                    ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(title + " Route");
+
+
+
+                }
+
+                setCurrentlyDrawnRoute(routeList.get(position));
+
+                backFromRoutes();
+
+            }
+
+        });
+
+        routeAdapter.notifyDataSetChanged();
+
+
+
+        currentlyDrawnRoute = null;
 
         String stopLatString = "";
         String stopLonString = "";
 
 
 
-//        Bundle extras = getActivity().getIntent().getExtras();
-//        if (extras != null) {
-//
-//            routeTag = extras.getString("routeTag");
-//            routeTitle = extras.getString("routeTitle");
-//
-//            dirTag = extras.getString("dirTag");
-//            dirTitle = extras.getString("dirTitle");
-//
-//
-//            stopTitle = extras.getString("stopTitle");
-//            stopTag = extras.getString("stopTag");
-//            stopLatString = extras.getString("stopLat");
-//            stopLonString = extras.getString("stopLon");
-//
-//
-//            stopLat = Double.parseDouble(stopLatString);
-//            stopLon = Double.parseDouble(stopLonString);
-//
-//
-//        }else{
-//
-//
-//
-//        }
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+
+
+            stopLatString = extras.getString("stopLat");
+            stopLonString = extras.getString("stopLon");
+
+            if(stopLatString != null){
+
+                stopLat = Double.parseDouble(stopLatString);
+                stopLon = Double.parseDouble(stopLonString);
+
+                routeTag = extras.getString("routeTag");
+                routeTitle = extras.getString("routeTitle");
+
+                dirTag = extras.getString("dirTag");
+                dirTitle = extras.getString("dirTitle");
+
+                stopTitle = extras.getString("stopTitle");
+                stopTag = extras.getString("stopTag");
+
+
+
+
+
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(stopLat, stopLon), 18.0f);
+                map.animateCamera(cameraUpdate);
+
+
+
+                if(routeTitle.equals("Route 420")){
+                    ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(routeTitle);
+
+                }
+                else{
+                    ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(routeTitle + " Route");
+                }
+
+                setCurrentlyDrawnRoute(new Route(routeTag, routeTitle));
+
+                fetchPath(routeTag, false);
+
+
+
+
+            }
+            else{
+
+
+                zoomToLocation();
+            }
+
+
+
+
+        }else{
+
+            zoomToLocation();
+
+        }
+
+
+
 
 
         map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
@@ -199,19 +340,37 @@ public class MapFragment extends Fragment {
 
     }
 
-    public void fetchPath(String routeTag){
+    public void zoomToLocation(){
 
-        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(getActivity(), RoutesResponseHandler.MAP_ID));
+
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        // Or use LocationManager.GPS_PROVIDER
+
+        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
+        // Updates the location and zoom of the MapView
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), 15.0f);
+        map.animateCamera(cameraUpdate);
+
+    }
+
+
+
+    public void fetchPath(String routeTag, boolean zoom){
+
+        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(getActivity(), RoutesResponseHandler.MAP_ID, zoom));
 
 
     }
 
 
-    public void drawPath(Document doc) {
+    public void drawPath(Document doc, boolean zoomToBounds) {
 
 
         this.doc = doc;
 
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         NodeList pathNodeList = doc.getElementsByTagName("path");
 
@@ -243,7 +402,11 @@ public class MapFragment extends Fragment {
                             double lat = Double.parseDouble(latString);
                             double lon = Double.parseDouble(lonString);
 
-                            polyOptions.add(new LatLng(lat, lon));
+                            LatLng point = new LatLng(lat, lon);
+
+                            polyOptions.add(point);
+
+                            builder.include(point);
 
 
 
@@ -258,12 +421,16 @@ public class MapFragment extends Fragment {
             }
         }
 
-        drawStops(doc);
+        LatLngBounds bounds = builder.build();
+
+        currentBounds = bounds;
+
+        drawStops(doc, bounds, zoomToBounds);
 
     }
 
 
-    public void drawStops(Document doc){
+    public void drawStops(Document doc, LatLngBounds bounds, boolean zoomToBounds){
 
         NodeList stopNodeList = doc.getElementsByTagName("stop");
 
@@ -290,7 +457,8 @@ public class MapFragment extends Fragment {
                             .flat(true)
                             .anchor(0.5f, 0.5f)
                                     //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_image_lens)));
+                            //.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_image_lens)));
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_image_brightness_1)));
 
                     if(title.equals(stopTitle)){
                         marker.showInfoWindow();
@@ -303,6 +471,14 @@ public class MapFragment extends Fragment {
                 }
 
             }
+        }
+        if(zoomToBounds) {
+
+            int padding = 60; // offset from edges of the map in pixels
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds,
+                    padding);
+            //map.moveCamera(cameraUpdate);
+            map.animateCamera(cameraUpdate);
         }
     }
 
@@ -342,19 +518,16 @@ public class MapFragment extends Fragment {
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.map_fab);
 
-        RelativeLayout rl = (RelativeLayout) getActivity().findViewById(R.id.map_route_selection_area);
+        LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.map_route_selection_area);
 
         fab.hide();
 
-        rl.setVisibility(View.VISIBLE);
+        ll.setVisibility(View.VISIBLE);
 
         YoYo.with(Techniques.Landing)
                 .duration(500)
-                .playOn(rl);
+                .playOn(ll);
 
-        HomeActivity homeActivity = (HomeActivity) getActivity();
-
-        homeActivity.fetchRouteList(RoutesResponseHandler.MAP_ID);
 
     }
 
@@ -362,17 +535,17 @@ public class MapFragment extends Fragment {
 
         final FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.map_fab);
 
-        final RelativeLayout rl = (RelativeLayout) getActivity().findViewById(R.id.map_route_selection_area);
+        final LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.map_route_selection_area);
 
 
 
         YoYo.with(Techniques.TakingOff)
                 .duration(500)
-                .playOn(rl);
+                .playOn(ll);
 
         new Handler().postDelayed(new Runnable() {
             @Override public void run() {
-                rl.setVisibility(View.GONE);
+                ll.setVisibility(View.GONE);
                 fab.show();
 
 
@@ -386,20 +559,21 @@ public class MapFragment extends Fragment {
 
         routeList.clear();
 
-        listView.setAdapter(routeAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                map.clear();
-                fetchPath(routeList.get(position).getTag());
-                backFromRoutes();
-
-            }
-
-        });
+//        listView.setAdapter(routeAdapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, final View view,
+//                                    int position, long id) {
+//                map.clear();
+//                fetchPath(routeList.get(position).getTag(), true);
+//                backFromRoutes();
+//
+//            }
+//
+//        });
+//
 
 
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -424,6 +598,50 @@ public class MapFragment extends Fragment {
         routeAdapter.notifyDataSetChanged();
 
 
+
+    }
+
+
+    public interface MapHost {
+
+
+
+        public ArrayList<Route> getRouteListCache();
+
+        public void setRouteListCache(ArrayList<Route> routeListCache);
+
+        public void fetchRouteList(int fragmentID);
+
+        public void mapFabClick(View view);
+
+        public void mapBackFromRoutes(View view);
+
+    }
+
+
+    public void setCurrentlyDrawnRoute(Route route){
+        currentlyDrawnRoute = route;
+
+    }
+
+    public Route getCurrentlyDrawnRoute(){
+
+        return currentlyDrawnRoute;
+
+
+    }
+
+    public void resetSubtitle(){
+
+        if(currentlyDrawnRoute != null) {
+
+            if (currentlyDrawnRoute.getTitle().equals("Route 420")) {
+                ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(currentlyDrawnRoute.getTitle());
+
+            } else {
+                ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(currentlyDrawnRoute.getTitle() + " Route");
+            }
+        }
     }
 
 

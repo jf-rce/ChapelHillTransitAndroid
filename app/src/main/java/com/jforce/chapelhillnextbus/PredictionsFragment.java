@@ -276,17 +276,6 @@ public class PredictionsFragment extends Fragment {
 
         timer = new Timer();
 
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public void generateRouteList(NodeList nodeList){
@@ -342,6 +331,9 @@ public class PredictionsFragment extends Fragment {
         }
 
         routeAdapter.notifyDataSetChanged();
+
+        HomeActivity homeActivity = (HomeActivity) getActivity();
+        homeActivity.setRouteListCache(routeList);
 
 
 
@@ -1736,7 +1728,8 @@ public class PredictionsFragment extends Fragment {
 
 
 
-        Intent intent = new Intent(getActivity(), MapStopActivity.class);
+//        Intent intent = new Intent(getActivity(), MapStopActivity.class);
+        Intent intent = new Intent(getActivity(), MapActivity.class);
 
         intent.putExtra("routeTitle", storedRoute.getTitle());
         intent.putExtra("routeTag", storedRoute.getTag());
@@ -1748,6 +1741,8 @@ public class PredictionsFragment extends Fragment {
         intent.putExtra("stopTag", storedStop.getTag());
         intent.putExtra("stopLat", storedStop.getLat());
         intent.putExtra("stopLon", storedStop.getLon());
+
+        intent.putExtra("routeListCache", routeList);
 
         startActivity(intent);
 

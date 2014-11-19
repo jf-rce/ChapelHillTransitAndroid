@@ -29,6 +29,11 @@
         <item>90000</item>
     </string-array>
 
+    <integer name="PREDICTIONS_ID">0</integer>
+    <integer name="FAVORITES_ID">1</integer>
+    <integer name="MAP_ID">2</integer>
+    <integer name="MAP_ID_STANDALONE">3</integer>
+
 
 
 </resources>

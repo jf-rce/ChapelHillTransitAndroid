@@ -24,11 +24,16 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
 
     private Activity activity;
     private int fragmentID;
+    private boolean zoom;
 
-    public DirectionsStopsPathsResponseHandler(Activity activity, int fragmentID){
+
+
+
+    public DirectionsStopsPathsResponseHandler(Activity activity, int fragmentID, boolean zoom){
 
         this.activity = activity;
         this.fragmentID = fragmentID;
+        this.zoom = zoom;
 
 
     }
@@ -66,10 +71,11 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
 
             //PredictionsFragment fragment = (PredictionsFragment) adapter.getRegisteredFragment(0);
 
+            FragmentManager fragmentManager = activity.getFragmentManager();
+
             if(activity.getClass() == HomeActivity.class){
 
-                HomeActivity homeActivity = (HomeActivity) activity;
-                FragmentManager fragmentManager = homeActivity.getFragmentManager();
+
 
                 if(fragmentID == RoutesResponseHandler.PREDICTIONS_ID){
                     PredictionsFragment fragment = (PredictionsFragment) fragmentManager.findFragmentById(R.id.content_frame);
@@ -79,7 +85,7 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
                 }
                 else if(fragmentID == RoutesResponseHandler.MAP_ID){
                     MapFragment fragment = (MapFragment) fragmentManager.findFragmentById(R.id.content_frame);
-                    fragment.drawPath(doc);
+                    fragment.drawPath(doc, true);
                     return;
 
                 }
@@ -88,10 +94,27 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
 
 
             }
-            else if(activity.getClass() == MapStopActivity.class){
+            else if(activity.getClass() == MapActivity.class){
 
-                MapStopActivity mapActivity = (MapStopActivity) activity;
-                mapActivity.drawPath(doc);
+
+
+                if(zoom == RoutesResponseHandler.NO_ZOOM){
+                    MapFragment fragment = (MapFragment) fragmentManager.findFragmentById(R.id.content_frame2);
+                    fragment.drawPath(doc, false);
+
+                    return;
+
+                }
+                else{
+                    MapFragment fragment = (MapFragment) fragmentManager.findFragmentById(R.id.content_frame2);
+                    fragment.drawPath(doc, true);
+
+                    return;
+
+                }
+
+
+
 
 
 
@@ -111,7 +134,7 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
                 return;
 
             }
-            else if(activity.getClass() == MapStopActivity.class){
+            else if(activity.getClass() == MapActivity.class){
 
                 Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.routeDrawError), Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -138,7 +161,7 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
-        else if (activity.getClass() == MapStopActivity.class){
+        else if (activity.getClass() == MapActivity.class){
 
             Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.routeDrawError), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
