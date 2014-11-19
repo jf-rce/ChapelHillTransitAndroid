@@ -68,6 +68,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jforce.chapelhillnextbus.HomeActivity" />
         </activity>
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/title_activity_map" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jforce.chapelhillnextbus.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -62,11 +62,13 @@ public class MapStopActivity extends ActionBarActivity {
 
         init();
 
+        getSupportActionBar().setTitle("Map");
+
         if(routeTitle.equals("Route 420")){
-            getSupportActionBar().setTitle(routeTitle);
+            getSupportActionBar().setSubtitle(routeTitle);
         }
         else{
-            getSupportActionBar().setTitle(routeTitle + " Route");
+            getSupportActionBar().setSubtitle(routeTitle + " Route");
         }
 
 
@@ -150,7 +152,7 @@ public class MapStopActivity extends ActionBarActivity {
 
     public void fetchPath(String routeTag){
 
-        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(this, RoutesResponseHandler.MAP_ID));
+        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(this, RoutesResponseHandler.MAP_ID, true));
 
 
 

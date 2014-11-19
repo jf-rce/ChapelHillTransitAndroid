@@ -82,7 +82,7 @@ import java.util.TimeZone;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, MapFragment.MapHost{
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ListView mDrawerList2;
@@ -91,11 +91,13 @@ public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayou
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private CharSequence mSubtitle;
     private String[] mDrawerTitles;
     private String[] mDrawerTitles2;
 
     private ArrayList<Route> routeListCache;
     private Fragment[] fragmentCache;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,7 @@ public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayou
         setSupportActionBar(toolbar);
 
         mTitle = mDrawerTitle = getTitle();
+        mSubtitle = "";
         mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
         mDrawerTitles2 = getResources().getStringArray(R.array.drawer_array2);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -125,6 +128,9 @@ public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayou
         mDrawerList2.setAdapter(new DrawerArrayAdapter2(this, mDrawerTitles2));
         mDrawerList2.setOnItemClickListener(new DrawerItemClickListener2());
 
+
+        routeListCache = null;
+
         // enable ActionBar app icon to behave as action to toggle nav drawer
         //getSupportActionBar().setIcon(R.drawable.ic_logo_white_nobezel_small);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -142,11 +148,26 @@ public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayou
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+                FragmentManager fragmentManager = getFragmentManager();
+
+                Fragment fragment = fragmentManager.findFragmentById(R.id.content_frame);
+
+                if(fragment.getClass() == MapFragment.class){
+                    MapFragment mf = (MapFragment) fragment;
+                    mf.resetSubtitle();
+                }
+
+
+
+
             }
 
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setSubtitle("");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
 
             }
         };
@@ -272,6 +293,7 @@ public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayou
 
                 if(finalPosition == 2){
                     Fragment fragment = new MapFragment();
+                    getSupportActionBar().setSubtitle(mSubtitle);
                     fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
                 }
@@ -358,7 +380,7 @@ public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayou
     public void fetchDirectionStops(String routeTag, int fragmentID){
 
 
-            RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag + "&terse", null, new DirectionsStopsPathsResponseHandler(this, fragmentID));
+            RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag + "&terse", null, new DirectionsStopsPathsResponseHandler(this, fragmentID, false));
 
 
             //RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(this, true));
@@ -605,13 +627,24 @@ public class HomeActivity extends ActionBarActivity implements SwipeRefreshLayou
                     fragment.cancelRefresh();
                     fragment.scheduleRefresh();
                 }
+
+                SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+                swipeLayout.setRefreshing(false);
+
+
             }
         }, 1500);
 
-        SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setRefreshing(false);
+
     }
 
+    public ArrayList<Route> getRouteListCache() {
+        return routeListCache;
+    }
+
+    public void setRouteListCache(ArrayList<Route> routeListCache) {
+        this.routeListCache = routeListCache;
+    }
 
 
 }

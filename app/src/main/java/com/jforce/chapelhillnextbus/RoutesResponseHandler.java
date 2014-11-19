@@ -25,6 +25,11 @@ public class RoutesResponseHandler extends AsyncHttpResponseHandler{
     public final static int PREDICTIONS_ID = 0;
     public final static int FAVORITES_ID = 1;
     public final static int MAP_ID = 2;
+    public final static int MAP_ID_STANDALONE = 3;
+
+    public static boolean ZOOM_TO_BOUNDS = true;
+    public static boolean NO_ZOOM = false;
+
 
     private Activity activity;
     private int fragmentID;
@@ -46,7 +51,6 @@ public class RoutesResponseHandler extends AsyncHttpResponseHandler{
 
         //TODO:
 
-        HomeActivity homeActivity = (HomeActivity) activity;
         NodeList nList;
 
         try {
@@ -68,24 +72,36 @@ public class RoutesResponseHandler extends AsyncHttpResponseHandler{
 
 
         }catch (Exception e) {
-            Toast toast = Toast.makeText(activity, "carrots", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.routeListError), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
             return;
         }
 
-        FragmentManager fragmentManager = homeActivity.getFragmentManager();
+        FragmentManager fragmentManager = activity.getFragmentManager();
 
-        if(fragmentID == PREDICTIONS_ID){
-            PredictionsFragment fragment = (PredictionsFragment) fragmentManager.findFragmentById(R.id.content_frame);
+        if(activity.getClass() == HomeActivity.class) {
+
+            if (fragmentID == PREDICTIONS_ID) {
+                PredictionsFragment fragment = (PredictionsFragment) fragmentManager.findFragmentById(R.id.content_frame);
+
+                fragment.generateRouteList(nList);
+            } else if (fragmentID == MAP_ID) {
+                MapFragment fragment = (MapFragment) fragmentManager.findFragmentById(R.id.content_frame);
+
+                fragment.generateRouteList(nList);
+            }
+        }
+        else if(activity.getClass() == MapActivity.class){
+
+
+            MapFragment fragment = (MapFragment) fragmentManager.findFragmentById(R.id.content_frame2);
 
             fragment.generateRouteList(nList);
-        }
-        else if(fragmentID == MAP_ID){
-            MapFragment fragment = (MapFragment) fragmentManager.findFragmentById(R.id.content_frame);
 
-            fragment.generateRouteList(nList);
+
         }
+
 
 
     }
