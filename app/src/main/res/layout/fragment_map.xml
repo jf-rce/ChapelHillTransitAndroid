@@ -30,24 +30,26 @@
         android:orientation="vertical"
         android:visibility="gone"
         android:id="@+id/map_route_selection_area"
+        android:gravity="center_horizontal"
         android:background="@color/accent1_transparent">
 
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:id="@+id/nav_row_map">
+            android:id="@+id/nav_row_map"
+            android:background="@color/main">
 
             <TextView
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:id="@+id/route_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textStyle="bold"
                 android:text="SELECT ROUTE"
                 android:textColor="@color/accent2_transparent"
                 android:textSize="20sp"
@@ -58,7 +60,8 @@
                 android:id="@+id/map_divider_line_top"
                 android:layout_below="@id/route_nav_text"
                 android:layout_width="fill_parent"
-                android:layout_height="16px"
+                android:layout_height="0dp"
+                android:visibility="gone"
                 android:background="@color/main_transparent"/>
         </RelativeLayout>
 
@@ -66,10 +69,15 @@
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map_listview"
             android:clickable="true"
-            android:divider="@color/main_transparent"
-            android:dividerHeight="2px"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:layout_below="@id/nav_row_map"
             android:layout_weight="1"
+            android:padding="12dp"
+            android:scrollbarStyle="outsideOverlay"
+            tools:ignore="overdraw"
+            android:fadingEdge="none"
+            android:clipToPadding="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <View
@@ -83,7 +91,7 @@
             android:id="@+id/map_back_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Back"
+            android:text="BACK"
             android:onClick="mapBackFromRoutes"
             android:background="@color/main_transparent"
             android:textColor="@color/accent2_transparent"
@@ -98,9 +106,9 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:onClick="mapFabClick"
-        android:src="@drawable/ic_maps_directions_bus"
+        android:src="@drawable/ic_maps_directions_bus_navy"
         fab:fab_type="normal"
-        fab:fab_colorNormal="@color/main"
+        fab:fab_colorNormal="@color/accent2"
         fab:fab_colorPressed="@color/accent1"/>
 
 </RelativeLayout>

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/accent1"
-    android:padding="6dip" >
+    android:layout_height="100dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/card_background_white"
+    android:padding="20dip" >
 
     <RelativeLayout
         android:id="@+id/favorite_icon"
         android:layout_centerVertical="true"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@drawable/round_corners">
         <TextView
             android:id="@+id/favorite_icon_text_main"
@@ -19,7 +20,7 @@
             android:layout_marginBottom="-5dp"
             android:maxLines="1"
             android:text=""
-            android:textColor="@color/CAROLINA_BLUE"
+            android:textColor="@color/accent1"
             android:textSize="24sp"/>
         <TextView
             android:id="@+id/favorite_icon_text_sub"
@@ -27,7 +28,7 @@
             android:layout_below="@id/favorite_icon_text_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/CAROLINA_BLUE"
+            android:textColor="@color/accent1"
             android:text=""
             android:textSize="8sp"/>
 
@@ -42,8 +43,11 @@
         android:layout_toRightOf="@id/favorite_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/accent2"
+        android:textSize="16sp"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/main"
         android:text="D Route"/>
     <TextView
         android:id="@+id/dir_info_text_favorite"
@@ -54,8 +58,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/route_info_text_favorite"
         android:text="To Chatham Park and Ride"
-        android:textSize="15sp"
-        android:textColor="@color/accent2"/>
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="14sp"
+        android:textColor="@color/main"/>
     <TextView
         android:id="@+id/stop_info_text_favorite"
         android:gravity="center"
@@ -64,8 +71,11 @@
         android:layout_below="@id/dir_info_text_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Franklin Woods"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textColor="#1D2951"
         />
 

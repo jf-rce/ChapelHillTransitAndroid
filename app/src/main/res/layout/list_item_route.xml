@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="@android:color/transparent"
-    android:padding="6dip" >
+    android:layout_height="75dp"
+    android:background="@drawable/card_background_white"
+    android:padding="12dip" >
 
     <RelativeLayout
         android:id="@+id/route_icon"
@@ -33,18 +33,15 @@
 
 
     </RelativeLayout>
-
-
-
-
     <TextView
         android:id="@+id/route_list_text"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
         android:layout_toRightOf="@id/route_icon"
-        android:textColor="@color/accent2"
-        android:text=""
-        android:textSize="20sp" />
+        android:textColor="@color/main"
+        android:text="T Route"
+        android:textSize="16sp" />
 
 </RelativeLayout>

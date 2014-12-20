@@ -14,6 +14,7 @@
         <color name="main_transparent">#E61D2951</color>
         <color name="accent1_transparent">#EF9FC0DF</color>
         <color name="accent2_transparent">#E6FFFFFF</color>
+        <color name="transparent">#00FFFFFF</color>
     
     
     <integer name="COLOR_WHEEL_CAROLINA_BLUE">210</integer>

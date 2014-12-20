@@ -63,4 +63,8 @@ public class Favorite {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String toString(){
+        return "Route: " + route.getTitle() + ", Dir: " + direction.getTitle() + ", Stop: " + stop.getTitle();
+    }
 }

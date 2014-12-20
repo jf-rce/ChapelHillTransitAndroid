@@ -275,14 +275,14 @@
 //    }
 //
 //
-//    public void saveFavorite(View view){
+//    public void saveFavoriteOld(View view){
 //
 //        int page = mPager.getCurrentItem();
 //
 //        if(page == 0) {
 //            ScreenSlidePagerAdapter adapter = (ScreenSlidePagerAdapter) mPagerAdapter;
 //            PredictionsFragment fragment = (PredictionsFragment) adapter.getRegisteredFragment(0);
-//            fragment.saveFavorite();
+//            fragment.saveFavoriteOld();
 //        }
 //
 //

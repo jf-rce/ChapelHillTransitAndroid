@@ -3,12 +3,14 @@ package com.jforce.chapelhillnextbus;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,8 +56,27 @@ public class FavoritesArrayAdapter extends ArrayAdapter<Favorite> {
         TextView textViewStop = (TextView) rowView.findViewById(R.id.stop_info_text_favorite);
         textViewStop.setText(values.get(position).getStop().getTitle());
 
-        rowView.setBackgroundColor(mSelectedItemsIds.get(position) ? 0x9934B5E4 : Color.TRANSPARENT);
+        //rowView.setBackgroundColor(mSelectedItemsIds.get(position) ? 0x9934B5E4 : Color.TRANSPARENT);
 
+        Drawable drawable_white = context.getResources().getDrawable(R.drawable.card_background_white);
+
+        Drawable drawable_selected = context.getResources().getDrawable(R.drawable.card_background_selected);
+
+
+        int left = rowView.getPaddingLeft();
+        int top = rowView.getPaddingTop();
+        int right = rowView.getPaddingRight();
+        int bottom = rowView.getPaddingBottom();
+        rowView.setBackgroundDrawable(mSelectedItemsIds.get(position) ? drawable_selected : drawable_white);
+
+        /*
+
+        setBackGroundDrawable erases padding
+        need to reset it after the call
+
+         */
+
+        rowView.setPadding(left, top, right, bottom);
 
 
         TextView iconTextMain = (TextView)rowView.findViewById(R.id.favorite_icon_text_main);

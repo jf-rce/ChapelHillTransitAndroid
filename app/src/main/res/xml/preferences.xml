@@ -3,24 +3,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="GENERAL"
+        android:title="BEHAVIOR"
         android:key="pref_key_general">
-        <ListPreference
+        <Preference
             android:key="refreshInterval"
-            android:title="Auto-refresh interval"
-            android:dialogTitle="Auto-refresh interval"
-            android:entries="@array/refresh_interval_entries"
-            android:entryValues="@array/refresh_interval_values"
-            android:defaultValue="30000" />
-       <!--<Preference
-            android:title="Refresh test"
-            android:key="button"
-            android:summary="This can act like a button to create it's own dialog"/> -->
+            android:title="Auto-refresh interval" />
+        <CheckBoxPreference
+            android:key="confirmExit"
+            android:title="Confirm on exit"
+            android:summary="Display a prompt before exiting app"/>
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="ABOUT"
+        android:title="APPLICATION"
         android:key="pref_key_application">
-        <com.jforce.chapelhillnextbus.LicenseDialogPreference
+        <Preference
+            android:key="pref_license"
             android:title="Licenses"
             android:summary="Open source license information"/>
         <Preference

@@ -49,7 +49,7 @@ public class RoutesResponseHandler extends AsyncHttpResponseHandler{
     public void onSuccess(int statusCode, Header[] headers, byte[] response) {
         // called when response HTTP status is "200 OK"
 
-        //TODO:
+
 
         NodeList nList;
 
@@ -63,7 +63,7 @@ public class RoutesResponseHandler extends AsyncHttpResponseHandler{
             nList = doc.getElementsByTagName("route");
 
 
-            //TODO:
+
             //ScreenSlidePagerAdapter adapter = (ScreenSlidePagerAdapter) homeActivity.getPagerAdapter();
 
             //PredictionsFragment fragment = (PredictionsFragment) adapter.getRegisteredFragment(0);

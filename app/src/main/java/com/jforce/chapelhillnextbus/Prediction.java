@@ -3,7 +3,7 @@ package com.jforce.chapelhillnextbus;
 /**
  * Created by justinforsyth on 10/4/14.
  */
-public class Prediction {
+public class Prediction implements Comparable<Prediction>{
 
     private Route route;
     private Direction direction;
@@ -38,4 +38,18 @@ public class Prediction {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    @Override
+    public int compareTo(Prediction prediction){
+
+        int thisTime = Integer.parseInt(this.timeInMinutes);
+
+        int thatTime = Integer.parseInt(prediction.getTimeInMinutes());
+
+        return thisTime - thatTime;
+
+    }
+
+
+
 }

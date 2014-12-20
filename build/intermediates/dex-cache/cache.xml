@@ -1,95 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<pre-dex-items>
+<items version="2" >
 
     <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-6abe6b5e750b00abc7e98980ce1bfcba051b8850.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/palette-v7/21.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="b65c2fede61220ed2b6a063f11ca13160910089e"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-58177ad4db7514efa48aceddc502bfabe6d1a0b1.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="686344a780033e4ba22b926cd225f8d4941247e6"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/gson-2.3-d48e93385e05eba0b8f34d2047f474e87b9b51a4.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/libs/gson-2.3.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/android-async-http-1.4.5-b0cd9a0e73f6ec23a74fb787f2c5d7d7a0c235e4.jar"
-        jar="/Users/justinforsyth/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.5/77bf7cacf9cefe19dc105e5425d2eb1bb5285881/android-async-http-1.4.5.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/internal_impl-21.0.0-31cf976f95f08a313c2094435565528eddc83dc2.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-870d49da4deae47330f4dfd66441a81bb43b7e05.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="7912610ed96381c25c36d986eba422731b9641b6"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-7537ada8dc70928270aea736dbc91a229026bb0b.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.9.1/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="a64671bd87b29748d87865871cc95147b89a2192"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-2730d1a7bf75bdfd07543cec4f20a51af13333ac.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/eu.inmite.android.lib/android-styled-dialogs/1.2.0/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="96f94fb9187942460105c4cca4951f8d18876cd4"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-54627afff564d7d0bb7b5e91ae6572f9869aa78d.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.daimajia.easing/library/1.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="e88a9ed27f98f8c0701d03d5553ce6111ca34a5b"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/library-2.4.0-b9dbc038643b79858f51ef135e794b0cbd6a401e.jar"
-        jar="/Users/justinforsyth/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-d298f82745b99943cbf9698bd221a55555cd0bf0.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.daimajia.androidanimations/library/1.1.2/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="85ccb558dc8258ecf4f0a19e97a3114ec2c64cb4"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-7e0817f9aefeef37c2d491d9b6e0b923eb974069.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="95fd37732ec852e99f07eeb516a3650172f1d136"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/support-annotations-21.0.0-ee576f91b45a6538d4156fc6e674b6f65034f74e.jar"
-        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-5e2c17772e20171843acb8c69d72b23d4ac109d1.jar"
-        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="0f700f6802ba1a1f1fa7ac26d5db0666a89d75a6"/>
-    <item
-        dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-e0d6e20ff53af1342df95ca01da82570553369d9.jar"
         jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.melnykov/floatingactionbutton/1.0.4/classes.jar"
         jumboMode="false"
         revision="21.0.2"
-        sha1="4e7cc190c9a6a0bc439ac2f139413e51317ca916"/>
+        sha1="4e7cc190c9a6a0bc439ac2f139413e51317ca916">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-e0d6e20ff53af1342df95ca01da82570553369d9.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/palette-v7/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="b65c2fede61220ed2b6a063f11ca13160910089e">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-6abe6b5e750b00abc7e98980ce1bfcba051b8850.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/2.0.4/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="0e546fc8dc1f68c39d41c544e2155c797b558492">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-cd6510de6d42ea22a41395e90bcfa7bb857d6991.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/support-annotations-21.0.3-4b18e5cc856af9c0d92968f22f460979b932ae0c.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.daimajia.easing/library/1.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="e88a9ed27f98f8c0701d03d5553ce6111ca34a5b">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-54627afff564d7d0bb7b5e91ae6572f9869aa78d.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-0cd84f5120b154555179331fd5517b3ea56a1de0.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/library-2.4.0-b9dbc038643b79858f51ef135e794b0cbd6a401e.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/internal_impl-21.0.3-c9e500b37cb47a2316f54732ccd401cbca128970.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.daimajia.androidanimations/library/1.1.2/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="85ccb558dc8258ecf4f0a19e97a3114ec2c64cb4">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-d298f82745b99943cbf9698bd221a55555cd0bf0.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.4.6/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="bf14979fff75822c8f789519aeca290c33c7dbed">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-115f3b1017436419e13686f2c04e200a61925b5c.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-manipulation/3.1.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="5660e4bf78904137e90e62a5d4cc2e987258f02c">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-e0a5d3736d68eb843880d886eb298eeb32c0025e.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="7912610ed96381c25c36d986eba422731b9641b6">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-870d49da4deae47330f4dfd66441a81bb43b7e05.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="0f700f6802ba1a1f1fa7ac26d5db0666a89d75a6">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-5e2c17772e20171843acb8c69d72b23d4ac109d1.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-core/3.1.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="acf66033b1418ccf9e15c8e77750981e4809c4ea">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-9afaaf8010235c44768cb43b514997d87e963975.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/libs/gson-2.3.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/gson-2.3-d48e93385e05eba0b8f34d2047f474e87b9b51a4.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-d0142e405d7a66921e8b9dc84ec7a6e645514902.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-core-slh/3.1.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="49223278ec2ede1d05d00868c5ce3e077b4016f8">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-5606ef44bfbbff441ca0cdf3e036799ba93d3e67.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.9.1/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="a64671bd87b29748d87865871cc95147b89a2192">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-7537ada8dc70928270aea736dbc91a229026bb0b.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.5/77bf7cacf9cefe19dc105e5425d2eb1bb5285881/android-async-http-1.4.5.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/android-async-http-1.4.5-b0cd9a0e73f6ec23a74fb787f2c5d7d7a0c235e4.jar" />
+    </item>
+    <item
+        jar="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/exploded-aar/eu.inmite.android.lib/android-styled-dialogs/1.2.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="96f94fb9187942460105c4cca4951f8d18876cd4">
+        <dex dex="/Users/justinforsyth/Dropbox/Documents/Android Studio Workspace/ChapelHillNextBus/app/build/intermediates/pre-dexed/release/classes-2730d1a7bf75bdfd07543cec4f20a51af13333ac.jar" />
+    </item>
 
-</pre-dex-items>
+</items>
