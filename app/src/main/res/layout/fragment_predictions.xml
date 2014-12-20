@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:card="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -19,86 +20,87 @@
 
     <RelativeLayout
         android:id="@+id/predictions_frag_relative_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/accent1"
 
         >
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:background="@color/main"
+            android:gravity="center"
             android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
             android:id="@+id/nav_row">
 
             <TextView
 
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+
                 android:id="@+id/route_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+
                 android:text="ROUTE"
                 android:textColor="@color/accent3"
                 android:textSize="20sp"
                 />
 
             <TextView
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+
                 android:id="@+id/route_arrow_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/route_nav_text"
                 android:text=" → "
                 android:textColor="@color/accent3"
-                android:textStyle="bold"
+
                 android:textSize="20sp"
                 />
             <TextView
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+
                 android:id="@+id/dir_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/route_arrow_nav_text"
                 android:text="DIRECTION"
-                android:textStyle="bold"
+
                 android:textColor="@color/accent3"
                 android:textSize="20sp"
                 />
 
             <TextView
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+
                 android:id="@+id/dir_arrow_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/dir_nav_text"
                 android:text=" → "
                 android:textColor="@color/accent3"
-                android:textStyle="bold"
+
                 android:textSize="20sp"
                 />
             <TextView
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+
                 android:id="@+id/stop_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/dir_arrow_nav_text"
                 android:text="STOP"
-                android:textStyle="bold"
+
                 android:textColor="@color/accent3"
                 android:textSize="20sp"
                 />
             <TextView
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+
                 android:id="@+id/stop_arrow_nav_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/stop_nav_text"
                 android:text=" → "
                 android:textColor="@color/accent3"
-                android:textStyle="bold"
+
                 android:textSize="20sp"
                 />
         </RelativeLayout>
@@ -107,45 +109,66 @@
                 android:id="@+id/predictions_divider_line_top"
                 android:layout_below="@id/nav_row"
                 android:layout_width="fill_parent"
-                android:layout_height="16px"
+                android:layout_height="0px"
+                android:visibility="gone"
                 android:background="@color/main"/>
 
             <ListView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/predictions_listview"
                 android:clickable="true"
-                android:divider="@color/main"
-                android:dividerHeight="2px"
-                android:background="@color/accent1"
                 android:layout_below="@id/predictions_divider_line_top"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <View
-                android:id="@+id/predictions_divider_line_bottom"
-                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent1"
+                android:clipToPadding="false"
+                android:divider="@null"
+                android:visibility="visible"
+                android:dividerHeight="0dp"
+                android:fadingEdge="none"
+                android:fitsSystemWindows="true"
+                android:padding="12dp"
+                android:scrollbarStyle="outsideOverlay"
+                tools:ignore="overdraw"/>
+        <View
+            android:id="@+id/predictions_divider_line_bottom"
+            android:layout_width="fill_parent"
+            android:visibility="invisible"
+            android:layout_below="@id/predictions_listview"
+            android:layout_height="2px"
+            android:background="@null"/>
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
 
-                android:layout_below="@id/predictions_listview"
-                android:layout_height="2px"
+            android:id="@+id/predictions_text_group"
+            android:layout_width="match_parent"
+            android:layout_below="@id/predictions_divider_line_top"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            sothree:panelHeight="95dp"
+            sothree:shadowHeight="0dp"
+            android:visibility="gone"
+            sothree:overlay="true"
+            sothree:fadeColor="@android:color/transparent">
+            <!-- android:layout_below="@id/predictions_divider_line_top" -->
 
-                android:background="@color/main"/>
             <RelativeLayout
-                android:id="@+id/predictions_text_group"
-                android:visibility="gone"
-                android:layout_below="@id/predictions_divider_line_top"
-                android:layout_width="fill_parent"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/predictions_main">
+                android:id="@+id/predictions_image_area"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/predictions_image_area_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@null"/>
                 <TextView
                     android:id="@+id/route_info_text"
                     android:layout_alignParentLeft="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+
                     android:textSize="20sp"
                     android:textColor="@color/accent2"
                     android:text="D Route"/>
@@ -156,6 +179,10 @@
                     android:textSize="15sp"
                     android:text="Auto-refresh"
                     android:textColor="@color/accent2"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/dir_info_text"
@@ -163,19 +190,23 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/route_info_text"
                     android:text="To Chatham Park and Ride"
+
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+
                     android:textSize="15sp"
                     android:textColor="@color/accent2"/>
-
-
-
                 <TextView
                     android:id="@+id/stop_info_text"
                     android:layout_below="@id/dir_info_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+
+                    android:paddingBottom="@dimen/activity_vertical_margin"
                     android:text="Franklin Woods"
                     android:textSize="10sp"
-                    android:textColor="@color/main"
+                    android:textColor="@color/accent2"
                     />
 
                 <android.support.v7.widget.SwitchCompat
@@ -183,7 +214,8 @@
                     android:layout_below="@id/auto_refresh_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#1D2951"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/accent2"
                     android:checked="true"
                     android:layout_alignParentRight="true"
                     />
@@ -193,152 +225,227 @@
                     android:layout_below="@id/refresh_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
+                    android:paddingRight="@dimen/activity_horizontal_margin"
                     android:text="Updated 10:30 am"
                     android:textSize="10sp"
-                    android:textColor="@color/main"
+                    android:textColor="@color/accent2"
                     />
                 <LinearLayout
-                    android:id="@+id/first_pred_line"
+                    android:id="@+id/pred_line"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     android:layout_below="@id/stop_info_text"
                     android:layout_centerHorizontal="true"
 
                     >
-                    <TextView
-                        android:id="@+id/first_pred_text"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/first_pred"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:textSize="50sp"
-                        android:textColor="@color/accent2"
-                        android:text="3"
-                        />
-                    <TextView
-                        android:id="@+id/first_pred_min"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:layout_below="@id/stop_info_text"
                         android:layout_centerHorizontal="true"
-                        android:layout_toRightOf="@id/first_pred_text"
-                        android:textSize="50sp"
-                        android:textColor="@color/accent2"
-                        android:text=" min"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/second_pred_line"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/first_pred_line"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    >
-                    <TextView
-                        android:id="@+id/second_pred_text"
-                        android:layout_width="wrap_content"
+
+                        >
+                        <TextView
+                            android:id="@+id/first_pred_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="30sp"
+                            android:textColor="@color/accent2"
+                            android:text=""
+                            />
+                        <TextView
+                            android:id="@+id/first_pred_min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_toRightOf="@id/first_pred_text"
+                            android:textSize="30sp"
+
+                            android:textColor="@color/accent2"
+                            android:text=""
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/second_pred"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:textSize="40sp"
-                        android:textColor="@color/accent2"
-                        android:text="12"
-                        />
-                    <TextView
-                        android:id="@+id/second_pred_min"
-                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        android:gravity="center"
+
+                        android:layout_weight="1"
+                        >
+                        <TextView
+                            android:id="@+id/second_pred_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="30sp"
+                            android:textColor="@color/accent2"
+                            android:text=""
+                            />
+                        <TextView
+                            android:id="@+id/second_pred_min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="30sp"
+                            android:textColor="@color/accent2"
+                            android:text=""
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/third_pred"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:visibility="visible"
+                        android:gravity="center"
+
                         android:layout_centerHorizontal="true"
-                        android:layout_toRightOf="@id/first_pred_text"
-                        android:textSize="40sp"
-                        android:textColor="@color/accent2"
-                        android:text=" min"
-                        />
+                        >
+                        <TextView
+                            android:id="@+id/third_pred_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="30sp"
+                            android:textColor="@color/accent2"
+                            android:text=""
+                            />
+                        <TextView
+                            android:id="@+id/third_pred_min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_toRightOf="@id/first_pred_text"
+                            android:textSize="30sp"
+                            android:textColor="@color/accent2"
+                            android:text=""
+                            />
+                    </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/third_pred_line"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/second_pred_line"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    >
-                    <TextView
-                        android:id="@+id/third_pred_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="30sp"
-                        android:textColor="@color/accent2"
-                        android:text="25"
-                        />
-                    <TextView
-                        android:id="@+id/third_pred_min"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_toRightOf="@id/first_pred_text"
-                        android:textSize="30sp"
-                        android:textColor="@color/accent2"
-                        android:text=" min"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/button_row"
-                    android:layout_below="@id/third_pred_line"
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/other_preds_panel"
+                android:background="@android:color/transparent"
+                >
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_width="0dp"
-                        android:background="@color/main"
-                        android:textColor="@color/accent2"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:drawableLeft="@drawable/ic_maps_map"
-                        android:text="Map"
-                        android:onClick="mapClick"
-                        android:layout_weight="1"
-                        android:layout_height="40dp" />
-                    <Button
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:background="@color/main"
-                        android:textColor="@color/accent2"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:drawableLeft="@drawable/ic_rating_important_carolina"
-                        android:text="Favorite"
+                    android:id="@+id/drag_area"
+                    android:clickable="true">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_alignParentTop="true"
+                        android:id="@+id/transparent_view"
+                        android:background="@null"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/blue_panel_area"
+                        android:layout_below="@id/transparent_view"
+                        android:background="@color/accent1_transparent">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/other_preds_text"
+                            android:textSize="15sp"
+                            android:textColor="@color/accent2"
+                            android:text="Other predictions serving same stop"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="35dp"
+                            android:layout_marginBottom="5dp"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:layout_below="@id/other_preds_text"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:visibility="gone"
+                            android:background="@color/accent2"/>
+
+                    </RelativeLayout>
+                    <com.melnykov.fab.FloatingActionButton
+                        android:id="@+id/fab_favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_below="@id/transparent_view"
+                        android:src="@drawable/ic_action_grade"
                         android:onClick="saveFavorite"
-                        android:layout_height="40dp" />
+                        fab:fab_type="normal"
+                        fab:fab_colorNormal="@color/accent2"
+                        fab:fab_colorPressed="@color/accent1"/>
+                    <com.melnykov.fab.FloatingActionButton
+                        android:id="@+id/fab_map"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-35dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_below="@id/transparent_view"
+                        android:src="@drawable/ic_maps_map_navy"
+                        android:onClick="mapClick"
+                        fab:fab_type="normal"
+                        fab:fab_colorNormal="@color/accent2"
+                        fab:fab_colorPressed="@color/accent1"/>
+                    <com.melnykov.fab.FloatingActionButton
+                        android:id="@+id/fab_notify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-35dp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:layout_marginLeft="16dp"
+                        android:layout_below="@id/transparent_view"
+                        android:src="@drawable/ic_hardware_watch"
+                        android:onClick="saveFavorite"
+                        fab:fab_type="normal"
+                        fab:fab_colorNormal="@color/accent2"
+                        fab:fab_colorPressed="@color/accent1"/>
 
-
-                    </LinearLayout>
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/other_preds_text"
-                    android:textSize="15sp"
-                    android:textColor="@color/accent2"
-                    android:text="Other predictions serving same stop"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layout_below="@id/predictions_main"/>
+                    </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/other_preds"
-                    android:layout_below="@id/other_preds_text"
+                    android:layout_below="@id/drag_area"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="0dp"
+                    android:background="@color/accent1_transparent"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     >
                     <ListView
                         android:id="@+id/other_preds_listview"
                         android:layout_centerHorizontal="true"
                         android:layout_width="match_parent"
+                        android:clipToPadding="false"
+                        android:divider="@null"
+                        android:fadingEdge="none"
+                        android:fitsSystemWindows="true"
+                        android:scrollbarStyle="outsideOverlay"
+                        tools:ignore="overdraw"
                         android:layout_height="wrap_content">
                     </ListView>
 
                 </RelativeLayout>
 
-
             </RelativeLayout>
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"

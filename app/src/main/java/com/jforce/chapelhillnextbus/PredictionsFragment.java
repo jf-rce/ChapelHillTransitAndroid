@@ -6,9 +6,11 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.SwitchCompat;
@@ -24,10 +28,10 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.gson.Gson;
 import com.melnykov.fab.FloatingActionButton;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,6 +41,9 @@ import org.w3c.dom.NodeList;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -46,12 +53,15 @@ import java.util.TreeMap;
  * A simple {@link Fragment} subclass.
  *
  */
-public class PredictionsFragment extends Fragment {
+public class PredictionsFragment extends Fragment implements OnDismissCallback {
 
     public final int LEVEL_ROUTE = 0;
     public final int LEVEL_DIRECTION = 1;
     public final int LEVEL_STOP = 2;
     public final int LEVEL_PREDICTION = 3;
+
+
+    private final int INITIAL_DELAY_MILLIS = 300;
 
     private int navigationLevel;
 
@@ -96,8 +106,7 @@ public class PredictionsFragment extends Fragment {
 
     private SwipeRefreshLayout swipeLayout;
 
-    MapView mapView;
-    GoogleMap map;
+    private SlidingUpPanelLayout slidingPanel;
 
     Bundle savedInstanceState;
 
@@ -117,18 +126,6 @@ public class PredictionsFragment extends Fragment {
         this.savedInstanceState = savedInstanceState;
 
 
-        //TODO:
-        //HomeActivity homeActivity = (HomeActivity) getActivity();
-
-        HomeActivity homeActivity = (HomeActivity) getActivity();
-
-        homeActivity.fetchRouteList(RoutesResponseHandler.PREDICTIONS_ID);
-
-
-
-        //MAP STUFF
-
-
 
 
 
@@ -139,8 +136,6 @@ public class PredictionsFragment extends Fragment {
 
         return rootView;
 
-//        return inflater.inflate(R.layout.fragment_predictions, container, false);
-
 
 
 
@@ -149,8 +144,8 @@ public class PredictionsFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-        setNavListeners();
-        fabInit();
+        initListeners();
+
     }
 
     @Override
@@ -171,7 +166,9 @@ public class PredictionsFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        if(getNavigationLevel() == LEVEL_PREDICTION) {
+        int level = getNavigationLevel();
+
+        if(level == LEVEL_PREDICTION) {
 
             if (shouldRefresh) {
                 scheduleRefresh();
@@ -181,13 +178,40 @@ public class PredictionsFragment extends Fragment {
 //                homeActivity.fetchPredictions(storedStop.getID());
 //            }
         }
+        else if(level == LEVEL_STOP){
+            showListView();
+
+
+            int index = directionList.indexOf(storedDirection);
+
+            generateStopList(index, true);
+        }
+        else if(level == LEVEL_DIRECTION){
+            showListView();
+            generateDirectionList(directionsAndStopDocument, true);
+        }
+        else{
+            showListView();
+            HomeActivity homeActivity = (HomeActivity) getActivity();
+            ArrayList<Route> routeListCache = homeActivity.getRouteListCache();
+
+            if((routeListCache != null) && (routeListCache.size() != 0)) {
+
+                generateRouteListBackground(routeListCache);
+
+
+            }
+            else{
+                homeActivity.fetchRouteList(RoutesResponseHandler.PREDICTIONS_ID);
+            }
+        }
 
        //
 
 
     }
 
-    public void setNavListeners(){
+    public void initListeners(){
 
         routeNav = (TextView) getActivity().findViewById(R.id.route_nav_text);
         routeNav.setOnClickListener(new View.OnClickListener() {
@@ -241,13 +265,61 @@ public class PredictionsFragment extends Fragment {
             }
         });
 
-
-    }
-
-    public void fabInit(){
-
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.hide(false);
+
+        slidingPanel = (SlidingUpPanelLayout) getActivity().findViewById(R.id.predictions_text_group);
+        slidingPanel.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+
+
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+
+
+        slidingPanel.setDragView(getActivity().findViewById(R.id.drag_area));
+
+
+        HomeActivity homeActivity = (HomeActivity) getActivity();
+
+        ArrayList<Route> routeListCache = homeActivity.getRouteListCache();
+
+        if((routeListCache != null) && (routeListCache.size() != 0)) {
+
+            generateRouteListBackground(routeListCache);
+
+
+        }
+        else{
+            homeActivity.fetchRouteList(RoutesResponseHandler.PREDICTIONS_ID);
+        }
+
+
+
+
+
 
     }
 
@@ -278,11 +350,29 @@ public class PredictionsFragment extends Fragment {
 
     }
 
+
+    @Override
+    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
+        for (int position : reverseSortedPositions) {
+            routeAdapter.remove(null);
+        }
+    }
+
     public void generateRouteList(NodeList nodeList){
 
         routeList.clear();
 
         listView.setAdapter(routeAdapter);
+
+
+//        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new SwipeDismissAdapter(routeAdapter, this));
+//        swingBottomInAnimationAdapter.setAbsListView(listView);
+//
+//        assert swingBottomInAnimationAdapter.getViewAnimator() != null;
+//        swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(INITIAL_DELAY_MILLIS);
+//
+//        listView.setAdapter(swingBottomInAnimationAdapter);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -294,12 +384,12 @@ public class PredictionsFragment extends Fragment {
                 //hideListView();
                 storedRoute = routeList.get(position);
 
-                //TODO:
+
                 //HomeActivity homeActivity = (HomeActivity) getActivity();
 
                 HomeActivity homeActivity = (HomeActivity) getActivity();
 
-                homeActivity.fetchDirectionStops(storedRoute.getTag(), RoutesResponseHandler.PREDICTIONS_ID);
+                homeActivity.fetchDirectionStops(storedRoute.getTag(), RoutesResponseHandler.PREDICTIONS_ID, true);
 
                 setNavigationLevel(LEVEL_DIRECTION);
 
@@ -343,7 +433,50 @@ public class PredictionsFragment extends Fragment {
 
     }
 
-    public void generateDirectionList(Document doc){
+
+    public void generateRouteListBackground(ArrayList<Route> routeListCache){
+
+        routeList.clear();
+
+        listView.setAdapter(routeAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //final String item = (String) parent.getItemAtPosition(position);
+
+                //hideListView();
+                storedRoute = routeList.get(position);
+
+
+                //HomeActivity homeActivity = (HomeActivity) getActivity();
+
+                HomeActivity homeActivity = (HomeActivity) getActivity();
+
+                homeActivity.fetchDirectionStops(storedRoute.getTag(), RoutesResponseHandler.PREDICTIONS_ID, true);
+
+                setNavigationLevel(LEVEL_DIRECTION);
+
+//                Toast toast = Toast.makeText(getActivity(), "getting directions for: " + routeTagList.get(position), Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+            }
+
+        });
+
+        routeList.addAll(routeListCache);
+
+        routeAdapter.notifyDataSetChanged();
+
+        colorizeRoute(false);
+
+    }
+
+
+
+    public void generateDirectionList(Document doc, boolean animate){
 
         directionList.clear();
 
@@ -386,7 +519,7 @@ public class PredictionsFragment extends Fragment {
                 //hideListView();
 
                 storedDirection = directionList.get(position);
-                generateStopList(position);
+                generateStopList(position, true);
 //                Toast toast = Toast.makeText(getActivity(), Integer.toString(position), Toast.LENGTH_SHORT);
 //                toast.setGravity(Gravity.CENTER, 0, 0);
 //                toast.show();
@@ -396,13 +529,23 @@ public class PredictionsFragment extends Fragment {
         });
 
         directionAdapter.notifyDataSetChanged();
-        colorizeDirection(true);
-        showListView();
 
+        if(animate) {
+            colorizeDirection(true);
+            showListView();
+        }
+        else{
+            for(int i = 0; i < directionList.size(); i++){
+
+                if(storedDirection.getTag().equals(directionList.get(i).getTag())){
+                    generateStopList(i, false);
+                }
+            }
+        }
 
     }
 
-    public void generateStopList(int directionPosition){
+    public void generateStopList(int directionPosition, boolean animate){
 
         stopList.clear();
         stopByDirectionList.clear();
@@ -423,11 +566,6 @@ public class PredictionsFragment extends Fragment {
 
 
                 stopsByDirectionNodeListList.add(element.getElementsByTagName("stop"));
-
-
-
-
-
 
             }
 
@@ -541,7 +679,7 @@ public class PredictionsFragment extends Fragment {
 
                 }
 
-
+                swipeLayout.setEnabled(false);
 
                 setNavigationLevel(LEVEL_PREDICTION);
 //                Toast toast = Toast.makeText(getActivity(), stopID, Toast.LENGTH_SHORT);
@@ -552,8 +690,12 @@ public class PredictionsFragment extends Fragment {
         });
 
         stopAdapter.notifyDataSetChanged();
-        showListView();
-        colorizeStop(true);
+
+        if(animate){
+            showListView();
+            colorizeStop(true);
+        }
+
 
     }
 
@@ -563,7 +705,7 @@ public class PredictionsFragment extends Fragment {
         public void run() {
 
 
-            //TODO:
+
             //HomeActivity homeActivity = (HomeActivity) getActivity();
             HomeActivity homeActivity = (HomeActivity) getActivity();
 
@@ -737,6 +879,21 @@ public class PredictionsFragment extends Fragment {
                         final TextView firstPredText = (TextView) getActivity().findViewById(R.id.first_pred_text);
                         final TextView firstPredMin = (TextView) getActivity().findViewById(R.id.first_pred_min);
 
+                        final LinearLayout firstPredContainer = (LinearLayout) getActivity().findViewById(R.id.first_pred);
+                        final LinearLayout secondPredContainer = (LinearLayout) getActivity().findViewById(R.id.second_pred);
+                        final LinearLayout thirdPredContainer = (LinearLayout) getActivity().findViewById(R.id.third_pred);
+
+
+                        ViewGroup.LayoutParams params = firstPredContainer.getLayoutParams();
+
+
+                        final float scale = getActivity().getResources().getDisplayMetrics().density;
+                        final int pixels = (int) (120 * scale + 0.5f);
+
+                        params.width = pixels;
+
+                        final ViewGroup.LayoutParams newParams = params;
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -748,6 +905,15 @@ public class PredictionsFragment extends Fragment {
                                 //timeInMinutes
                                 firstPredText.setText(timeInMinutes);
                                 firstPredMin.setText(" min");
+
+                                firstPredContainer.setVisibility(View.VISIBLE);
+                                firstPredContainer.setLayoutParams(newParams);
+
+                                secondPredContainer.setVisibility(View.GONE);
+
+                                thirdPredContainer.setVisibility(View.GONE);
+
+
 
                             }
                         });
@@ -761,6 +927,10 @@ public class PredictionsFragment extends Fragment {
                         final TextView secondPredText = (TextView) getActivity().findViewById(R.id.second_pred_text);
                         final TextView secondPredMin = (TextView) getActivity().findViewById(R.id.second_pred_min);
 
+
+                        final LinearLayout secondPredContainer = (LinearLayout) getActivity().findViewById(R.id.second_pred);
+                        final LinearLayout thirdPredContainer = (LinearLayout) getActivity().findViewById(R.id.third_pred);
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -770,6 +940,10 @@ public class PredictionsFragment extends Fragment {
                                 //timeInMinutes
                                 secondPredText.setText(timeInMinutes);
                                 secondPredMin.setText(" min");
+
+                                secondPredContainer.setVisibility(View.VISIBLE);
+
+                                thirdPredContainer.setVisibility(View.GONE);
 
                             }
                         });
@@ -782,6 +956,8 @@ public class PredictionsFragment extends Fragment {
 
                         final TextView thirdPredText = (TextView) getActivity().findViewById(R.id.third_pred_text);
                         final TextView thirdPredMin = (TextView) getActivity().findViewById(R.id.third_pred_min);
+                        final LinearLayout thirdPredContainer = (LinearLayout) getActivity().findViewById(R.id.third_pred);
+
 
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -790,6 +966,7 @@ public class PredictionsFragment extends Fragment {
 
                                 thirdPredText.setVisibility(View.VISIBLE);
                                 thirdPredMin.setVisibility(View.VISIBLE);
+                                thirdPredContainer.setVisibility(View.VISIBLE);
 
                                 thirdPredText.setText(timeInMinutes);
                                 thirdPredMin.setText(" min");
@@ -822,15 +999,39 @@ public class PredictionsFragment extends Fragment {
 
         if(matchingPredictions == 0){
 
+            final TextView firstPredText = (TextView) getActivity().findViewById(R.id.first_pred_text);
+            final TextView firstPredMin = (TextView) getActivity().findViewById(R.id.first_pred_min);
 
-            final TextView firstPredMin = (TextView) getActivity().findViewById(R.id.first_pred_text);
+            final LinearLayout firstPredContainer = (LinearLayout) getActivity().findViewById(R.id.first_pred);
+            final LinearLayout secondPredContainer = (LinearLayout) getActivity().findViewById(R.id.second_pred);
+            final LinearLayout thirdPredContainer = (LinearLayout) getActivity().findViewById(R.id.third_pred);
+
+            ViewGroup.LayoutParams params = firstPredContainer.getLayoutParams();
+
+
+            final float scale = getActivity().getResources().getDisplayMetrics().density;
+            final int pixels = (int) (200 * scale + 0.5f);
+
+            params.width = pixels;
+
+            final ViewGroup.LayoutParams newParams = params;
+
+
 
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
-                    firstPredMin.setVisibility(View.VISIBLE);
-                    firstPredMin.setText("No predictions");
+                    firstPredText.setVisibility(View.VISIBLE);
+                    firstPredText.setText("No predictions");
+                    firstPredMin.setVisibility(View.GONE);
+
+                    firstPredContainer.setVisibility(View.VISIBLE);
+                    firstPredContainer.setLayoutParams(newParams);
+
+                    secondPredContainer.setVisibility(View.GONE);
+
+                    thirdPredContainer.setVisibility(View.GONE);
 
                 }
             });
@@ -921,9 +1122,11 @@ public class PredictionsFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    otherPredsText.setVisibility(View.VISIBLE);
 
+                    otherPredsText.setText("Other predictions serving same stop");
                     generateNonMatchingPredictions(nonMatchingPredictionList);
+                    slidingPanel.expandPanel();
+                    //Open the SlideUpLayout
 //
 //                    ArrayList<Prediction> preds = new ArrayList<Prediction>();
 //
@@ -966,6 +1169,25 @@ public class PredictionsFragment extends Fragment {
 
 
         }
+        else{
+            final TextView otherPredsText = (TextView) getActivity().findViewById(R.id.other_preds_text);
+
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+
+
+                    otherPredsText.setText("No other predictions serving same stop");
+                    slidingPanel.collapsePanel();
+
+                }
+            });
+
+
+
+        }
 
 
         getActivity().runOnUiThread(new Runnable() {
@@ -1001,9 +1223,13 @@ public class PredictionsFragment extends Fragment {
             public void run() {
 
                 lastUpdateTV.setText(lastUpdate);
+                swipeLayout.setEnabled(false);
+                setImageBackground();
 
             }
         });
+
+
 
 
 
@@ -1145,6 +1371,8 @@ public class PredictionsFragment extends Fragment {
             ViewGroup.LayoutParams.WRAP_CONTENT));
 
 
+        Collections.sort(sanitizedPreds);
+
         PredictionArrayAdapter adapter = new PredictionArrayAdapter(getActivity(), sanitizedPreds);
 
         listView.setAdapter(adapter);
@@ -1159,8 +1387,15 @@ public class PredictionsFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int topRowVerticalPosition = (listView == null || listView.getChildCount() == 0) ? 0 : listView.getChildAt(0).getTop();
-                SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
-                swipeContainer.setEnabled(topRowVerticalPosition >= 0);
+//                SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
+//                swipeContainer.setEnabled(topRowVerticalPosition >= 0);
+
+
+//                if(topRowVerticalPosition >= 0){
+//                    slidingPanel
+//                }
+
+
             }
         });
 
@@ -1168,6 +1403,8 @@ public class PredictionsFragment extends Fragment {
         relativeLayout.addView(listView);
 
         //fab.attachToListView(listView);
+
+        swipeLayout.setEnabled(false);
 
 
 
@@ -1179,27 +1416,35 @@ public class PredictionsFragment extends Fragment {
 
     public void hidePredictionTexts(){
 
-        TextView firstPredText = (TextView) getActivity().findViewById(R.id.first_pred_text);
-        TextView firstPredMin = (TextView) getActivity().findViewById(R.id.first_pred_min);
+         LinearLayout firstPredContainer = (LinearLayout) getActivity().findViewById(R.id.first_pred);
+         LinearLayout secondPredContainer = (LinearLayout) getActivity().findViewById(R.id.second_pred);
+         LinearLayout thirdPredContainer = (LinearLayout) getActivity().findViewById(R.id.third_pred);
 
-        TextView secondPredText = (TextView) getActivity().findViewById(R.id.second_pred_text);
-        TextView secondPredMin = (TextView) getActivity().findViewById(R.id.second_pred_min);
+        firstPredContainer.setVisibility(View.GONE);
+        secondPredContainer.setVisibility(View.GONE);
+        thirdPredContainer.setVisibility(View.GONE);
 
-        TextView thirdPredText = (TextView) getActivity().findViewById(R.id.third_pred_text);
-        TextView thirdPredMin = (TextView) getActivity().findViewById(R.id.third_pred_min);
+//        TextView firstPredText = (TextView) getActivity().findViewById(R.id.first_pred_text);
+//        TextView firstPredMin = (TextView) getActivity().findViewById(R.id.first_pred_min);
+//
+//        TextView secondPredText = (TextView) getActivity().findViewById(R.id.second_pred_text);
+//        TextView secondPredMin = (TextView) getActivity().findViewById(R.id.second_pred_min);
+//
+//        TextView thirdPredText = (TextView) getActivity().findViewById(R.id.third_pred_text);
+//        TextView thirdPredMin = (TextView) getActivity().findViewById(R.id.third_pred_min);
 
-        TextView otherPredsText = (TextView) getActivity().findViewById(R.id.other_preds_text);
+        //TextView otherPredsText = (TextView) getActivity().findViewById(R.id.other_preds_text);
 
-        firstPredText.setVisibility(View.GONE);
-        firstPredMin.setVisibility(View.GONE);
+//        firstPredText.setVisibility(View.GONE);
+//        firstPredMin.setVisibility(View.GONE);
+//
+//        secondPredText.setVisibility(View.GONE);
+//        secondPredMin.setVisibility(View.GONE);
+//
+//        thirdPredText.setVisibility(View.GONE);
+//        thirdPredMin.setVisibility(View.GONE);
 
-        secondPredText.setVisibility(View.GONE);
-        secondPredMin.setVisibility(View.GONE);
-
-        thirdPredText.setVisibility(View.GONE);
-        thirdPredMin.setVisibility(View.GONE);
-
-        otherPredsText.setVisibility(View.GONE);
+        //otherPredsText.setVisibility(View.GONE);
 
     }
 
@@ -1256,12 +1501,12 @@ public class PredictionsFragment extends Fragment {
 
         bottomLine.setVisibility(View.GONE);
 
-        RelativeLayout relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.predictions_text_group);
+        SlidingUpPanelLayout panel = (SlidingUpPanelLayout) getActivity().findViewById(R.id.predictions_text_group);
+        RelativeLayout relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.predictions_image_area);
 
-
-        relativeLayout.setVisibility(View.VISIBLE);
+        panel.setVisibility(View.VISIBLE);
         YoYo.with(Techniques.FadeIn)
-                .playOn(relativeLayout);
+                .playOn(panel);
 
 
         //fab.show(true);
@@ -1273,7 +1518,7 @@ public class PredictionsFragment extends Fragment {
 
         View bottomLine = getActivity().findViewById(R.id.predictions_divider_line_bottom);
 
-        RelativeLayout relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.predictions_text_group);
+        SlidingUpPanelLayout relativeLayout = (SlidingUpPanelLayout) getActivity().findViewById(R.id.predictions_text_group);
 
         YoYo.with(Techniques.FadeOut)
                 .playOn(relativeLayout);
@@ -1342,7 +1587,7 @@ public class PredictionsFragment extends Fragment {
         TextView tvStopArrow = (TextView) getActivity().findViewById(R.id.route_arrow_nav_text);
 
         tvDir.setTextColor(getResources().getColor(R.color.accent2));
-        tvStopArrow.setTextColor(getResources().getColor(R.color.main));
+        tvStopArrow.setTextColor(getResources().getColor(R.color.accent1));
 
         if(animate) {
             YoYo.with(Techniques.Bounce)
@@ -1373,7 +1618,7 @@ public class PredictionsFragment extends Fragment {
 
 
         tvStop.setTextColor(getResources().getColor(R.color.accent2));
-        tvDirArrow.setTextColor(getResources().getColor(R.color.main));
+        tvDirArrow.setTextColor(getResources().getColor(R.color.accent1));
 
         if (animate) {
             YoYo.with(Techniques.Bounce)
@@ -1400,7 +1645,7 @@ public class PredictionsFragment extends Fragment {
     public void colorizeStopArrow(){
 
         TextView tvStopArrow = (TextView) getActivity().findViewById(R.id.stop_arrow_nav_text);
-        tvStopArrow.setTextColor(getResources().getColor(R.color.main));
+        tvStopArrow.setTextColor(getResources().getColor(R.color.accent1));
 
 
 
@@ -1435,11 +1680,10 @@ public class PredictionsFragment extends Fragment {
 
                 //hideListView();
                 storedRoute = routeList.get(position);
-                //TODO:
                 //HomeActivity homeActivity = (HomeActivity) getActivity();
                 HomeActivity homeActivity = (HomeActivity) getActivity();
 
-                homeActivity.fetchDirectionStops(storedRoute.getTag(), RoutesResponseHandler.PREDICTIONS_ID);
+                homeActivity.fetchDirectionStops(storedRoute.getTag(), RoutesResponseHandler.PREDICTIONS_ID, true);
                 setNavigationLevel(LEVEL_DIRECTION);
 
 //                Toast toast = Toast.makeText(getActivity(), "getting directions for: " + routeTagList.get(position), Toast.LENGTH_SHORT);
@@ -1457,6 +1701,8 @@ public class PredictionsFragment extends Fragment {
         greyifyDirection();
         greyifyStop();
         greyifyStopArrow();
+
+        swipeLayout.setEnabled(true);
 
     }
 
@@ -1482,7 +1728,7 @@ public class PredictionsFragment extends Fragment {
                 //hideListView();
 
                 storedDirection = directionList.get(position);
-                generateStopList(position);
+                generateStopList(position, true);
 //                Toast toast = Toast.makeText(getActivity(), Integer.toString(position), Toast.LENGTH_SHORT);
 //                toast.setGravity(Gravity.CENTER, 0, 0);
 //                toast.show();
@@ -1499,6 +1745,8 @@ public class PredictionsFragment extends Fragment {
         colorizeDirection(true);
         greyifyStop();
         greyifyStopArrow();
+
+        swipeLayout.setEnabled(true);
 
     }
 
@@ -1521,7 +1769,6 @@ public class PredictionsFragment extends Fragment {
 
                 //hideListView();
                 storedStop = stopByDirectionList.get(position);
-                //TODO:
                 //HomeActivity homeActivity = (HomeActivity) getActivity();
 
                 HomeActivity homeActivity = (HomeActivity) getActivity();
@@ -1531,6 +1778,7 @@ public class PredictionsFragment extends Fragment {
 //                toast.setGravity(Gravity.CENTER, 0, 0);
 //                toast.show();
                 setNavigationLevel(LEVEL_PREDICTION);
+                swipeLayout.setEnabled(false);
             }
 
         });
@@ -1542,6 +1790,8 @@ public class PredictionsFragment extends Fragment {
         colorizeDirection(false);
         colorizeStop(true);
         greyifyStopArrow();
+
+        swipeLayout.setEnabled(true);
 
 
 
@@ -1585,7 +1835,7 @@ public class PredictionsFragment extends Fragment {
 
     }
 
-    public void saveFavorite(){
+    public void saveFavoriteOld(){
 
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -1595,10 +1845,9 @@ public class PredictionsFragment extends Fragment {
 
         numFavorites = numFavorites + 1;
 
-
         Favorite favorite = new Favorite(storedRoute, storedDirection, storedStop, numFavorites);
 
-        ArrayList<Favorite> favorites = FavoritesFragment.buildFavoritesList(this.getActivity());
+        ArrayList<Favorite> favorites = FavoritesFragment.buildFavoritesListOld(this.getActivity());
 
 
         for (int i = 0; i < favorites.size(); i++) {
@@ -1609,8 +1858,6 @@ public class PredictionsFragment extends Fragment {
                 return;
             }
         }
-
-
 
         Gson gson = new Gson();
         String json = gson.toJson(favorite);
@@ -1623,6 +1870,32 @@ public class PredictionsFragment extends Fragment {
         toast.show();
 
 
+
+    }
+
+    public void saveFavorite(){
+
+        Favorite favorite = new Favorite(storedRoute, storedDirection, storedStop, 0);
+
+        ArrayList<Favorite> favorites = FavoritesFragment.buildFavoritesList(getActivity());
+
+        for (int i = 0; i < favorites.size(); i++) {
+            if (favorite.equals(favorites.get(i))) {
+                Toast toast = Toast.makeText(getActivity(), "Already a favorite!", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return;
+            }
+        }
+
+        favorites.add(favorite);
+
+        FavoritesFragment.syncFavorites(getActivity(), favorites);
+
+
+        Toast toast = Toast.makeText(getActivity(), "Favorite added!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
 
     }
 
@@ -1686,6 +1959,7 @@ public class PredictionsFragment extends Fragment {
     public void favoriteClick(Favorite favorite){
 
 
+
         HomeActivity homeActivity = (HomeActivity) getActivity();
         cancelRefresh();
 
@@ -1700,7 +1974,7 @@ public class PredictionsFragment extends Fragment {
         stopByDirectionList.clear();
         directionList.clear();
 
-        //fetchInForeground(route, direction, stop);
+        new RetrieveListsInBackground(this).execute();
 
         colorizeRoute(false);
         colorizeDirection(false);
@@ -1720,6 +1994,8 @@ public class PredictionsFragment extends Fragment {
         setNavigationLevel(LEVEL_PREDICTION);
 
         hideListViewShowPredictions();
+
+        swipeLayout.setEnabled(false);
 
 
     }
@@ -1748,5 +2024,93 @@ public class PredictionsFragment extends Fragment {
 
     }
 
+    public void setImageBackground(){
 
+        ImageView imageView = (ImageView) getActivity().findViewById(R.id.predictions_image_area_image);
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if(hour >= 1 && hour < 6){//night
+            imageView.setImageResource(R.drawable.belltower_night_crop_blur);
+        }
+        else if(hour >= 6 && hour < 17){//day
+            imageView.setImageResource(R.drawable.belltower_day2_crop_blur_dull);
+        }
+        else if(hour >= 17 && hour < 20){//dusk
+            imageView.setImageResource(R.drawable.belltower_dusk_crop_blur);
+        }
+        else{//night
+            imageView.setImageResource(R.drawable.belltower_night_crop_blur);
+        }
+
+
+    }
+
+
+    public class RetrieveListsInBackground extends AsyncTask<Void, Integer, Boolean> {
+
+        Fragment fragment;
+
+
+        public RetrieveListsInBackground(Fragment fragment){
+            this.fragment = fragment;
+
+
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... v) {
+
+            PredictionsFragment predictionsFragment = (PredictionsFragment) fragment;
+
+            Route route = predictionsFragment.getStoredRoute();
+            Direction direction = predictionsFragment.getStoredDirection();
+            Stop stop = predictionsFragment.getStoredStop();
+
+            HomeActivity homeActivity = (HomeActivity) fragment.getActivity();
+
+            //Method chains and gets directions AND stops
+            homeActivity.fetchDirectionStops(route.getTag(), RoutesResponseHandler.PREDICTIONS_ID, false);
+
+
+            return true;
+
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+//            if(result){
+//                Toast toast = Toast.makeText(fragment.getActivity(), "yes", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//
+//            }
+//            else{
+//                Toast toast = Toast.makeText(fragment.getActivity(), "no", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            }
+
+
+
+
+        }
+    }
+
+    public Stop getStoredStop() {
+        return storedStop;
+    }
+
+    public Route getStoredRoute() {
+        return storedRoute;
+    }
+
+    public Direction getStoredDirection() {
+        return storedDirection;
+    }
 }

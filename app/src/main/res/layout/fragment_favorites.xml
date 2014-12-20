@@ -5,27 +5,27 @@
     android:background="@color/accent1"
     tools:context="com.jforce.chapelhillnextbus.FavoritesFragment">
 
-
-    <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:id="@+id/favorites_root_layout">
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:background="@color/main"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
             android:id="@+id/nav_row_favorites">
 
             <TextView
 
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:id="@+id/favorites_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
                 android:text="TAP FOR PREDICTION"
                 android:textColor="@color/accent2"
                 android:textSize="20sp"
@@ -36,36 +36,32 @@
             android:id="@+id/favorites_divider_line_top"
             android:layout_width="fill_parent"
             android:layout_height="16px"
+            android:visibility="gone"
             android:layout_below="@id/nav_row_favorites"
             android:background="@color/main"/>
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/favorites_listview"
             android:clickable="true"
-            android:divider="@color/main"
-            android:dividerHeight="2px"
-            android:background="@color/accent1"
-            android:layout_below="@id/favorites_divider_line_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <com.jforce.chapelhillnextbus.ExpandingListView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/expanding_listview"
-            android:clickable="true"
-            android:divider="#9FC0DF"
-            android:dividerHeight="2px"
-            android:background="@color/accent2"
             android:layout_below="@id/favorites_divider_line_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             />
+
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:dividerHeight="4dp"
+            android:fadingEdge="none"
+            android:fitsSystemWindows="true"
+            android:padding="12dp"
+            android:scrollbarStyle="outsideOverlay"
+            tools:ignore="overdraw" />
+
         <View
             android:id="@+id/favorites_divider_line_bottom"
             android:layout_width="fill_parent"
             android:layout_below="@id/favorites_listview"
             android:layout_height="2px"
+            android:visibility="gone"
             android:background="@color/main"/>
     </RelativeLayout>
 

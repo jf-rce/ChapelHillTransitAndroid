@@ -25,15 +25,17 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
     private Activity activity;
     private int fragmentID;
     private boolean zoom;
+    private Boolean animate;
 
 
 
 
-    public DirectionsStopsPathsResponseHandler(Activity activity, int fragmentID, boolean zoom){
+    public DirectionsStopsPathsResponseHandler(Activity activity, int fragmentID, boolean zoom, Boolean animate){
 
         this.activity = activity;
         this.fragmentID = fragmentID;
         this.zoom = zoom;
+        this.animate = animate;
 
 
     }
@@ -44,7 +46,6 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
     public void onSuccess(int statusCode, Header[] headers, byte[] response) {
         // called when response HTTP status is "200 OK"
 
-        //TODO:
         //HomeActivity homeActivity = (HomeActivity) activity;
 
 
@@ -58,14 +59,13 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
-            Document doc = documentBuilder.parse(new ByteArrayInputStream(response));
+            final Document doc = documentBuilder.parse(new ByteArrayInputStream(response));
 
             doc.getDocumentElement().normalize();
 
             //NodeList directionNodeList = doc.getElementsByTagName("direction");
 
 
-            //TODO:
 
             //ScreenSlidePagerAdapter adapter = (ScreenSlidePagerAdapter) homeActivity.getPagerAdapter();
 
@@ -78,14 +78,24 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
 
 
                 if(fragmentID == RoutesResponseHandler.PREDICTIONS_ID){
-                    PredictionsFragment fragment = (PredictionsFragment) fragmentManager.findFragmentById(R.id.content_frame);
-                    fragment.generateDirectionList(doc);
+                    final PredictionsFragment fragment = (PredictionsFragment) fragmentManager.findFragmentById(R.id.content_frame);
+
+
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            fragment.generateDirectionList(doc, animate);
+                        }
+                    });
+
                     return;
 
                 }
                 else if(fragmentID == RoutesResponseHandler.MAP_ID){
                     MapFragment fragment = (MapFragment) fragmentManager.findFragmentById(R.id.content_frame);
-                    fragment.drawPath(doc, true);
+                    fragment.drawPath(doc, zoom);
                     return;
 
                 }
@@ -128,18 +138,31 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
 
             if(activity.getClass() == HomeActivity.class){
 
-                Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.directionListError), Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-                return;
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.directionListError), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        return;
+                    }
+                });
 
             }
             else if(activity.getClass() == MapActivity.class){
 
-                Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.routeDrawError), Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-                return;
+
+                activity.runOnUiThread(new Runnable() {
+                       @Override
+                       public void run() {
+                           Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.routeDrawError), Toast.LENGTH_SHORT);
+                           toast.setGravity(Gravity.CENTER, 0, 0);
+                           toast.show();
+                           return;
+                       }
+                });
+
 
             }
 
@@ -157,16 +180,32 @@ public class DirectionsStopsPathsResponseHandler extends AsyncHttpResponseHandle
         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
 
         if(activity.getClass() == HomeActivity.class){
-            Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.directionListError), Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.directionListError), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+
+                }
+            });
+
         }
         else if (activity.getClass() == MapActivity.class){
 
-            Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.routeDrawError), Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            return;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.routeDrawError), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+
+                }
+            });
 
         }
     }

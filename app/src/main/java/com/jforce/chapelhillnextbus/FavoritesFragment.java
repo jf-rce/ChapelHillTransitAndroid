@@ -24,7 +24,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
@@ -38,15 +40,13 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
 
     private ListView listView;
 
-    private ExpandingListView eListView;
-
     ActionMode mActionMode;
 
     ArrayList<Favorite> favorites;
 
     FavoritesArrayAdapter adapter;
 
-    ExpandingArrayAdapter eAdapter;
+    FavoritesExpandingArrayAdapter eAdapter;
 
 
 
@@ -109,7 +109,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
 
         listView = (ListView) rootView.findViewById(R.id.favorites_listview);
 
-        eListView = (ExpandingListView) rootView.findViewById(R.id.expanding_listview);
+        //eListView = (ExpandingListView) rootView.findViewById(R.id.expanding_listview);
 
 
         TextView tv = (TextView) rootView.findViewById(R.id.favorites_header);
@@ -142,7 +142,16 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
 
         adapter = new FavoritesArrayAdapter(getActivity(), favorites);
 
+//        eAdapter = new FavoritesExpandingArrayAdapter(getActivity(), favorites);
+//        AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(eAdapter);
+//        alphaInAnimationAdapter.setAbsListView(listView);
+//
+//        assert alphaInAnimationAdapter.getViewAnimator() != null;
+//        alphaInAnimationAdapter.getViewAnimator().setInitialDelayMillis(500);
+
         listView.setAdapter(adapter);
+        //listView.setAdapter(eAdapter);
+        //listView.setAdapter(alphaInAnimationAdapter);
 
         listView.setOnItemClickListener(this);
 
@@ -161,15 +170,6 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
 
             final Favorite favorite = favorites.get(position);
 
-            //TODO:
-
-//            HomeActivity homeActivity = (HomeActivity) getActivity();
-//
-//            ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
-//
-//            pager.setCurrentItem(0);
-//            ScreenSlidePagerAdapter adapter = (ScreenSlidePagerAdapter) homeActivity.getPagerAdapter();
-//            PredictionsFragment fragment = (PredictionsFragment) adapter.getRegisteredFragment(0);
 
             HomeActivity homeActivity = (HomeActivity) getActivity();
 
@@ -242,7 +242,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
 
     }
 
-    public static ArrayList<Favorite> buildFavoritesList(Context context){
+    public static ArrayList<Favorite> buildFavoritesListOld(Context context){
 
         //returns null if no favorites
         //returns arraylist of favorites if favorites have been saved
@@ -269,6 +269,27 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         return favorites;
 
     }
+
+
+    public static ArrayList<Favorite> buildFavoritesList(Context context){
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        //SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        ArrayList<Favorite> emptyFavorites = new ArrayList<Favorite>();
+        String jsonEmptyFavorites = gson.toJson(emptyFavorites);
+
+        String jsonFavorites = sharedPreferences.getString("favorites", jsonEmptyFavorites);
+
+        Type type = new TypeToken<ArrayList<Favorite>>(){}.getType();
+        ArrayList<Favorite> favorites = gson.fromJson(jsonFavorites, type);
+
+        return favorites;
+
+
+    }
+
 
     // 5. Called when the user clicks delete icon
     @Override
@@ -315,12 +336,12 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         adapter.removeSelection();
-        syncFavorites(adapter.getValues());
+        syncFavorites(getActivity(), adapter.getValues());
         refresh();
         mActionMode = null;
     }
 
-    public void syncFavorites(ArrayList<Favorite> newFavorites){
+    public void syncFavoritesOld(ArrayList<Favorite> newFavorites){
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -347,6 +368,26 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         editor.commit();
 
     }
+
+    public static void syncFavorites(Context context, ArrayList<Favorite> newFavorites){
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        String jsonNewFavorites = gson.toJson(newFavorites);
+
+        editor.remove("favorites");
+
+        editor.putString("favorites", jsonNewFavorites);
+
+        editor.commit();
+
+
+
+    }
+
 
     public ActionMode getActionMode(){
         return mActionMode;

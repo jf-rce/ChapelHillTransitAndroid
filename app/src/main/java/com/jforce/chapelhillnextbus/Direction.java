@@ -3,7 +3,7 @@ package com.jforce.chapelhillnextbus;
 /**
  * Created by justinforsyth on 10/4/14.
  */
-public class Direction {
+public class Direction implements Comparable<Direction>{
 
     private String tag;
     private String title;
@@ -28,6 +28,13 @@ public class Direction {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public int compareTo(Direction direction){
+
+        return tag.compareTo(direction.getTag());
+
     }
 
 

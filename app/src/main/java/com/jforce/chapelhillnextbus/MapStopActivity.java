@@ -152,7 +152,7 @@ public class MapStopActivity extends ActionBarActivity {
 
     public void fetchPath(String routeTag){
 
-        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(this, RoutesResponseHandler.MAP_ID, true));
+        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(this, RoutesResponseHandler.MAP_ID, true, null));
 
 
 

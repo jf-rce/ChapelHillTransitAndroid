@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/accent1"
-    android:padding="4dip" >
+    android:layout_height="60dp"
+    android:background="@drawable/card_background_white"
+    android:padding="12dp" >
 
     <RelativeLayout
         android:id="@+id/pred_icon"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/CAROLINA_BLUE"
             android:text=""
-            android:textSize="8sp"/>
+            android:textSize="6sp"/>
 
 
     </RelativeLayout>
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:textColor="@color/accent2"
+        android:textColor="@color/main"
         android:text="D Route"/>
     <TextView
         android:id="@+id/dir_info_text_pred"
@@ -55,7 +55,7 @@
         android:layout_below="@id/route_info_text_pred"
         android:text="To Chatham Park and Ride"
         android:textSize="11sp"
-        android:textColor="@color/accent2"/>
+        android:textColor="@color/main"/>
 
     <RelativeLayout
         android:id="@+id/pred_icon2"

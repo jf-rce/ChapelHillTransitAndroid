@@ -2,6 +2,7 @@ package com.jforce.chapelhillnextbus;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ public class PredictionsResponseHandler extends AsyncHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, byte[] response) {
         // called when response HTTP status is "200 OK"
 
-        //TODO:
+
 
         //HomeActivity homeActivity = (HomeActivity) activity;
         HomeActivity homeActivity = (HomeActivity) activity;
@@ -69,6 +70,7 @@ public class PredictionsResponseHandler extends AsyncHttpResponseHandler {
                 public void run() {
 
                     Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.predictionsError), Toast.LENGTH_SHORT);
+                    //Toast toast = Toast.makeText(activity, "ayy", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
 
@@ -84,6 +86,7 @@ public class PredictionsResponseHandler extends AsyncHttpResponseHandler {
                 public void run() {
 
                     Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.predictionsError), Toast.LENGTH_SHORT);
+                    //Toast toast = Toast.makeText(activity, "lmao", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
 
@@ -94,7 +97,7 @@ public class PredictionsResponseHandler extends AsyncHttpResponseHandler {
 
         }
 
-        //TODO:
+
 //        ScreenSlidePagerAdapter adapter = (ScreenSlidePagerAdapter) homeActivity.getPagerAdapter();
 //
 //        PredictionsFragment fragment = (PredictionsFragment) adapter.getRegisteredFragment(0);
@@ -110,8 +113,10 @@ public class PredictionsResponseHandler extends AsyncHttpResponseHandler {
     }
 
     @Override
-    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+    public void onFailure(final int statusCode, Header[] headers, final byte[] errorResponse, Throwable e) {
         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+
+
 
 
         activity.runOnUiThread(new Runnable() {
@@ -119,8 +124,11 @@ public class PredictionsResponseHandler extends AsyncHttpResponseHandler {
             public void run() {
 
                 Toast toast = Toast.makeText(activity, activity.getResources().getString(R.string.predictionsError), Toast.LENGTH_SHORT);
+                //Toast toast = Toast.makeText(activity, Integer.toString(statusCode), Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
+
+                //Log.d("cht", errorResponse.toString());
 
             }
         });

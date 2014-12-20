@@ -15,7 +15,7 @@
     </string-array>
     <string-array name="drawer_array2">
         <item>Refresh weather</item>
-        <item>About developer</item>
+        <item>About</item>
         <item>Settings</item>
     </string-array>
     <string-array name="refresh_interval_entries">
@@ -28,6 +28,11 @@
         <item>60000</item>
         <item>90000</item>
     </string-array>
+    <string-array name="confirm_exit_entries">
+        <item>On</item>
+        <item>Off</item>
+    </string-array>
+
 
     <integer name="PREDICTIONS_ID">0</integer>
     <integer name="FAVORITES_ID">1</integer>

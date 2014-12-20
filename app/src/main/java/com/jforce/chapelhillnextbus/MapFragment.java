@@ -85,6 +85,8 @@ public class MapFragment extends Fragment {
 
     private Prediction passedPrediction;
 
+    private boolean routeListVisible;
+
 
     public MapFragment() {
         // Required empty public constructor
@@ -111,7 +113,7 @@ public class MapFragment extends Fragment {
             e.printStackTrace();
         }
 
-
+        routeListVisible = false;
 
         return v;
     }
@@ -196,6 +198,7 @@ public class MapFragment extends Fragment {
 
         if((routeListCache != null) && (routeListCache.size() != 0)) {
 
+                routeList.clear();
                 routeList.addAll(routeListCache);
 
         }
@@ -359,7 +362,7 @@ public class MapFragment extends Fragment {
 
     public void fetchPath(String routeTag, boolean zoom){
 
-        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(getActivity(), RoutesResponseHandler.MAP_ID, zoom));
+        RestClientNextBus.get("routeConfig&a=chapel-hill&r=" + routeTag, null, new DirectionsStopsPathsResponseHandler(getActivity(), RoutesResponseHandler.MAP_ID, zoom, null));
 
 
     }
@@ -528,7 +531,7 @@ public class MapFragment extends Fragment {
                 .duration(500)
                 .playOn(ll);
 
-
+        setRouteListVisible(true);
     }
 
     public void backFromRoutes(){
@@ -552,6 +555,8 @@ public class MapFragment extends Fragment {
             }
         }, 250);
 
+
+        setRouteListVisible(false);
 
     }
 
@@ -644,7 +649,11 @@ public class MapFragment extends Fragment {
         }
     }
 
+    public boolean isRouteListVisible() {
+        return routeListVisible;
+    }
 
-
-
+    public void setRouteListVisible(boolean routeListVisible) {
+        this.routeListVisible = routeListVisible;
+    }
 }
